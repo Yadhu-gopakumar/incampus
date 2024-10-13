@@ -1,0 +1,8 @@
+<form action="{% url 'studentedit' %}" method="post">
+    {% csrf_token %}
+{{pform.Phone}}
+{{pform.profile_pic.value}}
+</form>
+
+
+{% for i in profile_data.following.all.profile_data %}

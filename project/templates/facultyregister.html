@@ -1,0 +1,97 @@
+{% load static %}
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>inCampus-signup Page</title>
+    <link rel="stylesheet" href="{% static 'asset/registerstyles.css' %}">
+</head>
+
+<style>
+    body {
+        background-color: #1f2029;
+        color: white;
+    }
+
+    input {
+        background-color: transparent;
+        border: none;
+        border-bottom: 1px solid #45ffbc;
+        outline: none;
+    }
+
+    input::placeholder {
+        color: grey;
+    }
+</style>
+
+<body>
+    <div class="content" style="height: fit-content;">
+        <div class="flex-div">
+            <div class="name-content">
+                <h1 class="logo" style="color:#45ffbc">inCampus</h1>
+                <p>Place to share your Ideas,Connect with friends</p>
+            </div>
+
+            <div class="form" style=" background: rgba(0,0,0,.5);
+			box-sizing: border-box;
+			box-shadow: 0 15px 25px rgba(0,0,0,.6);
+			border-radius: 10px;margin-top: 35vh;">
+                {% for i in messages %}
+                <p style="color:orange ;">{{i}}</p>
+                {% endfor %}
+                <div class="titlef" style="color:white">Faculty Sign Up</div>
+
+                <form action="{% url 'facultyreg' %}" method="post">
+                    {% csrf_token %}
+                 
+                    <input type="text" placeholder="firstname " name="fname" style="border: none;
+					border-bottom: 1px solid #45ffbc;color:white;
+					outline: none;" required />
+                    <input type="text" placeholder="lastname " name="lname" style="border: none;
+					border-bottom: 1px solid #45ffbc;color:white;
+					outline: none;" required />
+                    <input type="email" placeholder="email " name="email" style="border: none;
+					border-bottom: 1px solid #45ffbc;color:white;
+					outline: none;" required />
+                    <input type="text" placeholder="phone number " name="phone" style="border: none;
+					border-bottom: 1px solid #45ffbc;color:white;
+					outline: none;" required />
+                  
+
+                    <select name="department" class="form-control" id="id_department" style="font-family: 'Poppins', sans-serif;border: none;
+					border-bottom: 1px solid #45ffbc;color:white;
+					outline: none;background-color: transparent;height: 40px;" required>
+                        <option value="" selected disabled>Select your department</option>
+                        <option value="MBA">MBA</option>
+                        <option value="MCA">MCA</option>
+                        <option value="BTECH">BTECH</option>
+                        <option value="MTECH">MTECH</option>
+                    </select>
+
+
+                    <input type="password" placeholder="Password " name="pswd" style="border: none;
+					border-bottom: 1px solid #45ffbc;color:white;
+					outline: none;" required />
+                    <input type="password" placeholder="confirm Password" name="cpswd" style="border: none;
+					border-bottom: 1px solid #45ffbc;color:white;
+					outline: none; " required>
+                    <button class="login" type="submit" style="background: rgb(96,9,240);
+					background: linear-gradient(0deg, rgba(96,9,240,1) 0%, rgba(129,5,240,1) 100%);
+					border: none; ">Sign Up</button>
+
+
+                </form>
+
+                <a href="{% url 'facultylogin' %}" class="create-account"
+                    style="color: #45ffbc;background-color: transparent;text-decoration: none;text-decoration:underline;">
+                    Already registered
+                </a>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

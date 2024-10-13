@@ -1,0 +1,785 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>inCampus</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+    <!-- Facebook Favicon -->
+    <link rel="icon" href="/images/favicon.png" />
+
+    <!-- Fontawesome Icons  -->
+    <script src="https://kit.fontawesome.com/7433d3320f.js" crossorigin="anonymous"></script>
+
+    <!-- CSS File  -->
+    <link rel="stylesheet" href="{% static 'asset/styles.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+    * {
+        color: white;
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;/
+    }
+
+
+    *::-webkit-scrollbar {
+        display: none;
+    }
+
+
+    input ::placeholder {
+        color: rgb(231, 230, 230)
+    }
+
+    body {
+        /* background: linear-gradient(to right, #dad299, #b0dab9); */
+        background-color: #2b2a34;
+        /* background: linear-gradient(-70deg,  #202020, #000000); */
+    }
+
+
+
+
+    h1 {
+        margin: 0 auto;
+        margin-top: 5rem;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .image-preview-container {
+        width: 80%;
+        margin: 0 auto;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        border-radius: 20px;
+        display: grid;
+        place-items: center;
+    }
+
+    span .st-label {
+        display: none;
+    }
+
+    .image-preview-container img {
+        width: 90%;
+        display: none;
+        margin-bottom: 30px;
+    }
+
+    .image-preview-container input {
+        display: none;
+    }
+
+    .image-preview-container label {
+        display: block;
+        padding: 20px;
+        width: fit-content;
+        height: 45px;
+        text-align: center;
+        background: #8338ec;
+        color: #fff;
+        font-size: 15px;
+        text-transform: Uppercase;
+        font-weight: 400;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .form,
+    .form-group {
+
+        display: grid;
+        place-items: center;
+    }
+
+    .form-control:focus {
+        border-color: transparent;
+        box-shadow: none;
+    }
+
+    #caption {
+        width: 80%;
+        border: 0;
+        outline: 0;
+        border-bottom: 2px solid blue;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+    * {
+        padding: 0;
+        margin: 0;
+        font-family: 'Poppins', sans-serif
+    }
+
+    .container {
+        /* height: fit-content; */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #eee;
+        padding: 1rem 0;
+    }
+
+    .card {
+        margin-top: 2rem;
+        width: 350px;
+        height: fit-content;
+        background-color: #fff;
+        box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden
+    }
+
+    .card .info {
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #e1dede;
+        background-color: #e5e5e5
+    }
+
+    .card .info button,
+    #updatebtn {
+        height: 30px;
+        width: 80px;
+        border: none;
+        color: #fff;
+        border-radius: 4px;
+        background-color: #000;
+        cursor: pointer;
+        text-transform: uppercase
+    }
+
+    .card .forms {
+        padding: 15px
+    }
+
+    .card .inputs {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px
+    }
+
+    .card .inputs span {
+        font-size: 10px;
+        margin: 5px 0;
+    }
+
+    .card .inputs input {
+        height: 40px;
+        padding: 0px 10px;
+        font-size: 17px;
+        box-shadow: none;
+        outline: none;
+        width: 90%;
+        display: grid;
+        place-items: center;
+    }
+
+    .card .inputs input[type="text"][readonly] {
+        border: 2px solid rgba(0, 0, 0, 0)
+    }
+
+    input[type='file'] {
+        display: none;
+    }
+
+    .form-input label {
+        display: block;
+        width: 45%;
+        height: 45px;
+        margin-left: 25%;
+        line-height: 50px;
+        text-align: center;
+        background: #1172c2;
+
+        color: #fff;
+        font-size: 15px;
+        font-family: "Open Sans", sans-serif;
+        text-transform: Uppercase;
+        font-weight: 600;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .form-input img {
+        width: 100%;
+        display: none;
+
+        margin-bottom: 30px;
+    }
+
+    #updatebtn {
+        display: none;
+    }
+
+    .textarea:focus {
+        outline: none;
+        border-color: #9ecaed;
+        box-shadow: 0 0 10px #9ecaed;
+    }
+
+    .caption {
+        border: none;
+        border-bottom: 2px solid black;
+    }
+
+    .preload {
+        position: absolute;
+        content: '';
+        width: 100vw;
+        height: 100%;
+        display: none;
+        background-color: transparent;
+        z-index: 100;
+    }
+
+    .custom-btn {
+        width: 130px;
+        height: 40px;
+        color: #fff;
+        border-radius: 5px;
+        padding: 10px auto;
+        font-family: 'Lato', sans-serif;
+        font-weight: 500;
+        background: transparent;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        display: inline-block;
+        box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, .5),
+            7px 7px 20px 0px rgba(0, 0, 0, .1),
+            4px 4px 5px 0px rgba(0, 0, 0, .1);
+        outline: none;
+    }
+
+
+    /* 2 */
+    .btn-2 {
+        background: rgb(96, 9, 240);
+        background: linear-gradient(0deg, rgba(96, 9, 240, 1) 0%, rgba(129, 5, 240, 1) 100%);
+        border: none;
+
+    }
+
+    .btn-2:before {
+        height: 0%;
+        width: 2px;
+    }
+
+    .storycard {
+        width: 19%;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    ::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        background-color: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: transparent;
+    }
+
+    @media only screen and (max-width:400px) {
+        .storycard {
+            width: 60px;
+        }
+
+        .story-post {
+            font-size: 10px;
+        }
+    }
+
+    .floating-menu {
+        margin-top: 30px;
+        display: block;
+        width: 100%;
+        height: 80vh;
+        background-color: #1f2835;
+        opacity: 0.7;
+        border-radius: 8px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-evenly;
+        flex-direction: column;
+    }
+
+    .floating-menu>li {
+        list-style: none;
+        padding-left: 30px;
+    }
+
+    .floating-menu>li a {
+        color: #fff;
+        font-size: 1rem;
+        text-decoration: none;
+        display: block;
+        padding: 0.75rem 0.5rem;
+    }
+
+
+
+    .floating-menu>li a:hover {
+        color: #ffd53e;
+    }
+
+
+    #picture__input {
+        display: none;
+    }
+
+    .picture {
+        width: 400px;
+        height: 300px;
+
+        background: #ddd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #aaa;
+        border: 2px dashed currentcolor;
+        cursor: pointer;
+        font-family: sans-serif;
+        transition: color 300ms ease-in-out, background 300ms ease-in-out;
+        outline: none;
+        overflow: hidden;
+    }
+
+    .picture:hover {
+        color: #777;
+        background: #ccc;
+    }
+
+    .picture:active {
+        border-color: turquoise;
+        color: turquoise;
+        background: #eee;
+    }
+
+    .picture:focus {
+        color: #777;
+        background: #ccc;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .picture__img {
+        max-width: 100%;
+    }
+</style>
+
+<body style="background-color: white;color: #000;">
+
+    <!-- Navigation Section  -->
+    <nav style="background-color: #85859c">
+        <!-- <nav style=" background: linear-gradient(to right, #780206, #061161);"> -->
+        <!-- Left Section  -->
+        <div class="nav-left">
+            <a href="{% url 'facultyhome' %}" style="text-decoration: none;"><span class="logo"
+                    style="color: white;font-size: 25px;font-weight: bold;letter-spacing: 2px;filter: progid:DXImageTransform.Microsoft.Glow(Color=#ffffff,Strength=1);text-shadow: 0 0 4px rgb(57, 226, 5);">inCampus</span></a>
+        </div>
+        <!-- Right Section  -->
+        <div class="nav-right">
+            <div class="addpost mx-2" style="background: linear-gradient(327.43deg, #4a6064 -77.68%, #17191C 87.35%);
+      border: none;
+      box-shadow: -4px -2px 16px rgba(195,200,205,0), 4px 4px 18px rgba(0, 0, 0, 0.5);">
+
+                <button type="button" class="btn btn-light" data-toggle="modal" data-target="#debate"
+                    data-whatever="@mdo" style="background: linear-gradient(327.43deg, #3e5368 -77.68%, #1f2835 87.35%);
+        border: none;
+        box-shadow: -4px -2px 16px rgba(195,200,205,0), 4px 4px 18px rgba(0, 0, 0, 0.5);color:white;"><i
+                        class="fa-solid fa-plus" style="margin-right:7px;"></i>Add Debate</button>
+
+            </div>
+
+            <div class="addpost mx-2" style="background: linear-gradient(327.43deg, #4a6064 -77.68%, #17191C 87.35%);
+            border: none;
+            box-shadow: -4px -2px 16px rgba(195,200,205,0), 4px 4px 18px rgba(0, 0, 0, 0.5);">
+
+                <button type="button" class="btn btn-light" data-toggle="modal" data-target="#community"
+                    data-whatever="@mdo" style="background: linear-gradient(327.43deg, #3e5368 -77.68%, #1f2835 87.35%);
+              border: none;
+              box-shadow: -4px -2px 16px rgba(195,200,205,0), 4px 4px 18px rgba(0, 0, 0, 0.5);color:white;"><i
+                        class="fa-solid fa-plus" style="margin-right:7px;"></i>Add Community</button>
+
+            </div>
+
+
+            <div class="nav-user-icon online" onclick="settingsMenuToggle()" style="margin-left: 10px;">
+                <img src="{{ data.profile_pic.url }}" style="border:3px solid #45ffbc;background-color: white;" />
+            </div>
+
+
+        </div>
+
+        <!-- Settings Menu Section  -->
+        <div class="settings-menu" style="background-color: rgb(255, 255, 255);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    -webkit-box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 20px rgba(14, 13, 13, 0.356);">
+
+            <!-- Dark Button Toggle  -->
+
+            <div class="settings-menu-inner" style="color: #000;background-color: #677f9760;">
+                <div class="user-profile">
+                    <img src="{{ data.profile_pic.url }}" style="height: 50px;width:50px;border:3px solid #45ffbc;" />
+                    <div>
+                        <p style="color: rgb(0, 0, 0);">{{data.firstname}}_{{data.lastname}}</p>
+
+                    </div>
+                </div>
+                <hr />
+
+                <hr />
+
+                <div class="settings-links">
+                    <a href="{% url 'facultyedit' %}" style="color: rgb(0, 64, 107);">
+                        <button type="button" class="btn btn-disabled" style="color: rgb(0, 0, 0);">
+                            <img src="{% static 'images/setting.png' %}" class="settings-icon" />
+                            edit Profile
+                        </button>
+                    </a>
+                </div>
+
+
+                <div class="settings-links">
+
+                    <button type="submit" class="btn btn-disable" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop" style="color: rgb(0, 0, 0);">
+                        <img src="{% static 'images/logout.png' %}" class="settings-icon" />
+                        logout
+                    </button>
+
+
+
+                </div>
+            </div>
+
+        </div>
+
+    </nav>
+
+    <!-- Main Content Section  -->
+
+    <div class="container-fluid" style="background-color:transparent;color:black;display: grid;grid-template-columns: 0.3fr 1fr ;height: 100vh;overflow-y: hidden;scrollbar-width: 0;background: rgb(238,174,202);
+    background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);">
+
+        <!-- Left Sidebar  -->
+        <div>
+
+            <ul class="floating-menu" style="padding-bottom: 20%;">
+
+                <li><a href='#'>Study Materials</a></li>
+                <li><a href='#'>Debates</a></li>
+                <li><a href='#'>Faculty</a></li>
+                <li><a href='#'>Community</a></li>
+
+            </ul>
+
+
+        </div>
+        <!-- Middle Content  -->
+        <!-- Story Section  -->
+
+        <div class="main-content"
+            style="height: 90vh;overflow-y: scroll;width: 60vw;margin-left: 100px;color: #1e1d25;">
+
+
+
+
+            <!-- Uploaded Posts Section  -->
+            <!-- Post 1  -->
+            {% for i in posts reversed %}
+            <div class="post-container" id="{{i.id}}" style=" background:#393846;padding: 20px;width: 80%;">
+                <div class="post-row" style="justify-content: space-around;">
+
+
+                    <div class="user-profile" style="width: 80%;align-items: flex-start;">
+                        <a href="{% url 'studentprofile' i.user.username %}">
+
+                            <img src="{{i.post_profile.profile_pic.url}}"
+                                style="height: 50px;width:50px;border:3px solid rgb(105, 255, 163);" />
+                        </a>
+
+                        <div>
+                            <p class="fw-bold" style="color:rgb(227, 252, 1)">{{i.user.first_name}} {{i.user.last_name}}
+                            </p>
+                            <span style="font-size: 14px;color:#8c8aa7;">{{i.upload_date}}</span>
+                        </div>
+                    </div>
+
+                </div>
+                <p class="post-text fw-normal"
+                    style="font-weight: bold;letter-spacing:1px;color: rgb(224, 224, 224);width: 100%;margin-left: 40px;">
+                    {{i.caption}}
+                </p>
+                <hr style="color: rgb(230, 230, 230);">
+                <div class="post-row" style="display:grid;place-items: center;justify-content: center;">
+
+                    <img src="{{i.post.url}}" alt="" style="width: 400px;height: 300px;object-fit: contain;">
+
+                </div>
+                <div class="post-row" style="display: flex;align-items: center;justify-content: flex-start;">
+                    <div class="activity-icons "
+                        style="display: flex;align-items: center;justify-content:space-between;color: #45ffbc;margin: 10px 40px;">
+
+
+                        {% if user in i.likes.all %}
+                        <button style="background-color:transparent;border: 0;outline: 0;" class="likebtn mx-2"
+                            type="submit">
+                            {% csrf_token %}
+
+                            <i class="fas fa-heart" style='font-size:40px;color:red;' onclick='likepost(this)'
+                                id="{{i.id}}"></i>
+                        </button>
+
+                        {% else %}
+
+                        <button style="background-color:transparent ;border: 0;outline: 0;" class="likebtn mx-2"
+                            type="submit">
+                            {% csrf_token %}
+
+                            <i class="fas fa-heart" style='font-size:40px;color:grey;' onclick='likepost(this)'
+                                id="{{i.id}}"></i>
+
+
+                        </button>
+
+                        {% endif %}
+
+                        {% comment %}
+                        </a> {% endcomment %}
+
+                        <span class="fw-bold" id="likecount{{i.id}}"
+                            style="color: #45ffbc;margin-right: 3px;">{{i.likes.count}} </span>Like
+                        <a href="{% url 'fcomment' i.id %}" style="text-decoration:none ;margin-left: 40px;">
+                            <div class="comment fw-bold" style="color:  #45ffbc;">
+                                <i class="far fa-comment"
+                                    style="border-radius: 50%;height: 40px;width: 40px;font-size: 40px;margin-right: 5px;"></i>
+
+                                Comments
+
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            You're all caught up...
+
+
+            <!-- Right Sidebar  -->
+            <!-- <div style="color: black;">
+    
+            </div> -->
+        </div>
+        <script>
+
+            function likepost(e) {
+                const likeform = new FormData()
+                let data = likeform.append('id', e.id);
+                // (e.style.color === "grey") ? (e.style.color = "brown") : (e.style.color = 'grey');
+
+                fetch(`like/${e.id}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json, text/plain, */*',
+                        'Content-Type': 'application/json',
+                        "X-CSRFToken": '{{csrf_token}}'
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then((res) => res.json())
+                    .then((data) => {
+                        console.log(data);
+                        let likecount = document.getElementById(`likecount${e.id}`);
+                        if (e.style.color === "grey") {
+                            likecount.innerHTML = (likecount.innerHTML * 1) + 1;
+                            e.style.color = "red";
+                        }
+                        else {
+                            likecount.innerHTML = (likecount.innerHTML * 1) - 1;
+                            e.style.color = "grey";
+                        }
+                    }
+                    )
+                    .catch((err) => console.log(err));
+            }
+        </script>
+
+
+
+
+
+        <!-- upload post form  -->
+        <div class="modal fade " id="debate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true" style="color: rgb(255, 255, 255);">
+            <div class="modal-dialog">
+                <div class="modal-content" style="background-color: rgb(255, 255, 255);
+      -webkit-backdrop-filter: blur(15px);
+      backdrop-filter: blur(15px);
+   
+      -webkit-box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 2px 20px rgba(219, 214, 214, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel" style="color: #201f36;">New Debate</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            style="border:none;outline:none;">
+                            <span aria-hidden="true" style="color:red;">X</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="color:black">
+                        <form id="form1" action="{% url 'adddebate' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <div class="form-group">
+
+                                <label for="file-upload" style="color: rgb(0, 0, 0);">Add new Debate topic...</label>
+                              
+                                <textarea oninput="auto_grow(this)" style="color:rgb(0, 0, 0);resize: none;overflow: hidden;min-height: 50px;max-height: 150px;width:80%; border: 2px solid #dadada;
+                            border-radius: 7px; background-color: #33333383;" name="debate" class="form-control textarea"
+                                    placeholder="what's in your mind.." required id='post'></textarea>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <button type="submit" class="btn btn-primary" style="background: rgb(96,9,240);
+              background: linear-gradient(0deg, rgba(96,9,240,1) 0%, rgba(129,5,240,1) 100%);
+              border: none;">Share</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- upload post form  -->
+
+
+
+        <!-- sign out form model  -->
+
+        <div class="modal fade " id="community" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true" style="color: rgb(255, 255, 255);color: #000;">
+            <div class="modal-dialog">
+                <div class="modal-content" style="background-color: rgb(255, 255, 255);
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+
+  -webkit-box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 20px rgba(219, 214, 214, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel" style="color: #201f36;">New Community post</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            style="border:none;outline:none;">
+                            <span aria-hidden="true" style="color:red;">X</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="color:black">
+                        <form id="form1" action="{% url 'addcommunity' %}" method="post" >
+                            {% csrf_token %}
+                            <div class="form-group">
+
+                                <label for="file-upload" style="color: rgb(0, 0, 0);">Community Title</label>
+                               
+                                <textarea oninput="auto_grow(this)" style="color:rgb(0, 0, 0);resize: none;overflow: hidden;min-height: 50px;max-height: 150px;width:80%; border: 2px solid #dadada;
+                        border-radius: 7px; background-color: #33333338;" name="post" class="form-control textarea"
+                                    placeholder="title.." required id='post'></textarea>
+
+                            </div>
+                            <div class="form-group">
+
+                                <label for="file-upload" style="color: rgb(0, 0, 0);">Community Post...</label>
+                               
+                                <textarea oninput="auto_grow(this)" style="color:rgb(0, 0, 0);resize: none;overflow: hidden;min-height: 100px;max-height: 150px;width:80%; border: 2px solid #dadada;
+                        border-radius: 7px; background-color: #33333321;" name="post" class="form-control textarea"
+                                    placeholder="what's in your mind.." required id='post'></textarea>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <button type="submit" class="btn btn-primary" style="background: rgb(96,9,240);
+          background: linear-gradient(0deg, rgba(96,9,240,1) 0%, rgba(129,5,240,1) 100%);
+          border: none;">Share</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- sign out form model  -->
+        <!-- Footer Section  -->
+
+        <!-- Footer Section  -->
+
+
+        <!-- JavaScript File  -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+            crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+
+            var settingsmenu = document.querySelector(".settings-menu");
+            function settingsMenuToggle() {
+                settingsmenu.classList.toggle("settings-menu-height");
+            }
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                $("#myBtn").click(function () {
+                    $("#myModal").modal();
+                });
+            });
+
+
+        </script>
+        <!-- image upload progress -->
+     
+        <!-- image upload progress -->
+
+
+
+
+        <script>
+            function auto_grow(element) {
+                element.style.height = "5px";
+                element.style.height = (element.scrollHeight) + "px";
+            }
+        </script>
+        <script src="{% static 'asset/script.js' %}"></script>
+
+</body>
+
+</html>

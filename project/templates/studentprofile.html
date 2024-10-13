@@ -1,0 +1,363 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<!-- Profile Section  -->
+<div class="profile-container"
+  style="color:black;background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);min-height:100vh;">
+
+  <div class="profile-details" style="justify-content: center;align-items:center;width: 100%;word-wrap: break-word;background-color: rgba(255, 255, 255, 0.06);
+	-webkit-backdrop-filter: blur(15px);
+	backdrop-filter: blur(15px);
+	padding: 50px 25px;
+	-webkit-box-shadow: 0 25px 23px rgba(0, 0, 0, 0.15);
+	box-shadow: 0 25px 23px rgba(0, 0, 0, 0.15);
+	border: 1.5px solid rgba(255, 255, 255, 0.06);">
+    <div class="pd-left" style='width:100%;justify-content:space-around;'>
+      <div class="pd-row" style="justify-content:start;align-items:flex-start;width:100%;">
+
+        <img src="{{profile_data.profile_pic.url}}" style="border:3px solid orange;" class="pd-image" />
+        <div style="flex-direction:column ;text-align:start;">
+          <h3><b style="color:#000000">{{profile_data.reg_no}}</b></h3>
+          <h5><b style="color:#000e35">{{profile_data.firstname}} {{profile_data.lastname}}</b></h5>
+          <p class="profile-desc text-start" style="color:#000e35">
+            {{profile_data.bio}}
+          </p>
+
+        </div>
+
+
+      </div>
+      <div
+        style="display:flex;flex-direction:row ;text-align: center; justify-content: space-around;width:fit-content;margin: 20px 0 0 5px;">
+        <p style="margin-right: 10px;cursor:pointer;color: black;" data-toggle="modal" data-target="#following">
+          following:<b style="color: rgb(0, 0, 0);"> {{profile_data.following.count}}</b>
+        </p>
+        <p style="margin-right: 10px;cursor:pointer;color: black;" data-toggle="modal" data-target="#followers">
+          followers:<b style="color: rgb(0, 0, 0);"><span id="followingcount" style="color: rgb(0, 0, 0);">
+              {{profile_data.followers.count}}</span></b>
+        </p>
+        <p style="color: rgb(0, 0, 0);">posts:<b> {{profile_data.posts.count}}</b> </p>
+      </div>
+    </div>
+    {% if profile_data == userprofile %}
+    <div></div>
+    {% else %}
+    <div class="r">
+
+
+
+      <button class="custom-btn btn-2" id="{{profile_data.reg_no}}"
+        style="display:grid;place-items:center;border: none;outline: none;" onclick="followbtn(this)">
+        {% csrf_token %}
+        <div id="isfollowing" style="display: flex;align-items: center;justify-content: space-between;padding:0;">
+          {% if isfollowing %}
+
+          <i class="fas fa-times mx-2"></i>
+          <div id="followtext">Unfollow</div>
+
+
+          {% else %}
+
+          <i class="fas fa-plus mx-2"></i>
+          <div id="followtext">Follow</div>
+
+
+          {% endif %}
+        </div>
+      </button>
+
+
+      <br />
+
+    </div>
+
+    {% endif %}
+
+  </div>
+
+  <div class="container" style="background-color: transparent;">
+    <!-- Left Sidebar  -->
+    <div> </div>
+    <!-- Middle Content  -->
+    <!-- Story Section  -->
+    <div class="main-content">
+
+      <!-- Uploaded Posts Section  -->
+      <!-- Post 1  -->
+      {% if posts %}
+      {% for i in posts reversed %}
+      <div class="post-container" id="{{i.id}}" style=" background:#393846;
+   
+      box-shadow: 0 15px 100px #1e1d25;">
+        <div class="post-row">
+
+
+          <div class="user-profile">
+            <a href="{% url 'homepage' %}">
+
+              <img src="{{i.post_profile.profile_pic.url}}"
+                style="height: 50px;width:50px;border:3px solid #45ffbc;background-color: white;" />
+            </a>
+
+            <div>
+              <p class="fw-bold" style="color:rgb(227, 252, 1)">{{i.user.first_name}} {{i.user.last_name}}</p>
+              <span style="font-size: 14px;color:#8c8aa7;">{{i.upload_date}}</span>
+            </div>
+          </div>
+          <a class="trash" href="{% url 'pdeletepost' i.id %}">
+            {% if i.user.username == profile_data.reg_no %}
+            <i class="fa fa-trash" onclick="dletepost('{{i.id}}')"></i>
+            {% endif %}
+          </a>
+
+        </div>
+        <p class="post-text fw-normal" style="font-weight: bold;letter-spacing:1px;color: rgb(224, 224, 224);">
+          {{i.caption}}
+        </p>
+        <hr style="color: rgb(230, 230, 230);">
+
+
+        <div class="post-row" style="display:grid;place-items: center;justify-content: center;">
+
+          <img src="{{i.post.url}}" alt="" style="width: 400px;height: 300px;object-fit: contain;">
+
+        </div>
+
+        <div class="post-row" style="display: flex;align-items: center;justify-content: flex-start;">
+          <div class="activity-icons "
+            style="display: flex;align-items: center;justify-content:space-between;color: #45ffbc;margin: 10px 40px;">
+
+
+            {% if user in i.likes.all %}
+            <button style="background-color:transparent;border: 0;outline: 0;" class="likebtn mx-2" type="submit">
+              {% csrf_token %}
+
+              <i class="fas fa-heart" style='font-size:40px;color:red;' onclick='likepost(this)' id="{{i.id}}"
+                user="{{ request.user.username }}"></i>
+            </button>
+
+            {% else %}
+
+            <button style="background-color:transparent ;border: 0;outline: 0;" class="likebtn mx-2" type="submit"
+              user="{{ request.user.username }}">
+              {% csrf_token %}
+
+              <i class="fas fa-heart " style='font-size:40px;color:grey;' onclick='likepost(this)' id="{{i.id}}"
+                user="{{ request.user.username }}"></i>
+
+
+            </button>
+
+            {% endif %}
+
+            {% comment %}
+            </a> {% endcomment %}
+
+            <span class="fw-bold" id="likecount{{i.id}}" style="color: #45ffbc;margin-right: 3px;">{{i.likes.count}}
+            </span>Like
+            <a href="{% url 'comment' i.id %}" style="text-decoration:none ;margin-left: 40px;">
+              <div class="comment fw-bold" style="color:  #45ffbc;">
+                <i class="far fa-comment"
+                  style="border-radius: 50%;height: 40px;width: 40px;font-size: 40px;margin-right: 5px;"></i>
+
+                Comments
+
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+
+      {% else %}
+      <p style="color: rgb(0, 0, 0);">no posts</p>
+
+      {% endif %}
+
+
+
+      <!-- Load More  -->
+
+    </div>
+
+    <!-- Right Sidebar  -->
+    <div></div>
+  </div>
+
+</div>
+<div class="modal fade" id="following" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="background-color: rgba(255, 255, 255, 0.08);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+ 
+    -webkit-box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 20px rgba(219, 214, 214, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.0.8);">
+      <div class="modal-header">
+        <h5 class="modal-title " id="exampleModalLabel" style="color:#45ffbc">{{profile_data.following.count}} Following
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid mt-1">
+          <div class="d-flex justify-content-center row">
+
+            {% for i in profile_data.following.all %}
+
+            <div class="d-flex flex-row justify-content-between align-items-center mt-2">
+
+              <a href="{% url 'studentprofile' i.username %}" style="text-decoration: none;">
+
+                <div class="d-flex flex-row align-items-center"><img class="rounded-circle"
+                    src="https://i.imgur.com/WxNkK7J_d.webp" width="55" style="border: 2px solid grey;">
+                  <div class="d-flex flex-column align-items-start ml-2"><span
+                      class="font-weight-bold ">{{i.first_name}} {{i.last_name}}</span>
+                  </div>
+                </div>
+              </a>
+
+              <div class="d-flex flex-row align-items-center mt-2"><button class="btn btn-outline-warning btn-sm"
+                  type="button">{{i.following.count}} Followers</button></div>
+              </button>
+            </div>
+            {% endfor %}
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+<div class="modal fade" id="followers" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="background-color: rgba(255, 255, 255, 0.08);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+ 
+    -webkit-box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 20px rgba(219, 214, 214, 0.15);
+    border: 1px solid rgba(255, 255, 255,0.3);">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="color:#45ffbc;">{{profile_data.followers.count}} Followers
+        </h5>
+        <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-dark">
+        {% for i in profile_data.followers.all %}
+
+        <div class="d-flex flex-row justify-content-between align-items-center mt-2">
+          <a href="{% url 'studentprofile' i.username %}" style="text-decoration: none;">
+
+            <div class="d-flex flex-row align-items-center"><img class="rounded-circle"
+                src="https://i.imgur.com/WxNkK7J_d.webp" width="55" style="border: 2px solid grey;">
+              <div class="d-flex flex-column align-items-start ml-2"><span
+                  class="font-weight-bold ">{{i.firstname}}</span>
+                <span class="followers  text-gery"> {{i.lastname}}</span>
+              </div>
+            </div>
+          </a>
+
+          <div class="d-flex flex-row align-items-center mt-2"><button class="btn btn-outline-warning btn-sm"
+              type="button">{{i.followers.count}} Followers</button></div>
+          </button>
+        </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+
+  function followbtn(e) {
+    const likeform = new FormData()
+    let data = likeform.append('id', e.id);
+
+
+    fetch(`/profile/${e.id}/follow/`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+        "X-CSRFToken": '{{csrf_token}}'
+      },
+      body: JSON.stringify(data)
+    })
+      .then((res) => res.json())
+      .then((data) => {
+
+        console.log(`${data}`);
+        let followingcount = document.getElementById("followingcount");
+        let isfollowing = document.getElementById("isfollowing");
+
+
+        const followelement = `<i class="fas fa-plus mx-2"></i><div id="followtext">Follow</div>`;
+        const unfollowelement = `<i class="fas fa-times mx-2"></i><div id="followtext">Unfollow</div>`;
+
+        if (`${data}` == 'following') {
+
+          isfollowing.innerHTML = "";
+          isfollowing.innerHTML = unfollowelement;
+          followingcount.innerText = (followingcount.innerText * 1) + 1;
+
+        } if (`${data}` == 'notfollowing') {
+
+          isfollowing.innerHTML = "";
+          isfollowing.innerHTML = followelement;
+          followingcount.innerText = (followingcount.innerText * 1) - 1;
+
+        }
+
+      }
+      )
+      .catch((err) => alert("oops some error occured!!!"));
+  }
+</script>
+<script>
+
+  function likepost(e) {
+
+
+    const likeform = new FormData()
+    let data = likeform.append('id', e.id);
+    // (e.style.color === "grey") ? (e.style.color = "brown") : (e.style.color = 'grey');
+
+    fetch(`/like/${e.id}/`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+        "X-CSRFToken": '{{csrf_token}}'
+      },
+      body: JSON.stringify(data)
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        let likecount = document.getElementById(`likecount${e.id}`);
+        if (e.style.color === "grey") {
+          likecount.innerHTML = (likecount.innerHTML * 1) + 1;
+          e.style.color = "red";
+        }
+        else {
+          likecount.innerHTML = (likecount.innerHTML * 1) - 1;
+          e.style.color = "grey";
+        }
+      }
+      )
+      .catch((err) => console.log(err));
+  }
+</script>
+
+{% endblock %}

@@ -1,0 +1,6 @@
+admin:yadhu
+paswd:1234
+
+main url : base/
+faculty url : base/faculty
+admin : credentials/adminlogin

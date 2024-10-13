@@ -1,0 +1,241 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+    * {
+        padding: 0;
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        color: white;
+    }
+
+    .container {
+        height: fit-content;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: transparent;
+    }
+
+    .card {
+        margin: 2rem 0;
+        width: 350px;
+        height: fit-content;
+        background-color: #fff;
+        box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        padding: 5px 20px;
+    }
+
+    .card .info {
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #e1dede;
+        background-color: #e5e5e5;
+        margin-bottom: 20px;
+    }
+
+    .card .info button,
+    #updatebtn {
+        height: 30px;
+        width: 80px;
+        border: none;
+        color: #fff;
+        border-radius: 4px;
+        background-color: #000;
+        cursor: pointer;
+
+    }
+
+    .card .forms {
+        padding: 15px
+    }
+
+    .card .inputs {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+        border-bottom: 1px solid grey;
+        border-radius: 5px;
+        width: 100%;
+    }
+
+    .card .inputs span {
+        font-size: 10px;
+        margin: 5px 0;
+    }
+
+    .card .inputs input {
+        height: 40px;
+        padding: 0px 10px;
+        font-size: 15px;
+        box-shadow: none;
+        outline: none;
+        width: 100%;
+        display: grid;
+        place-items: center;
+        /* outline: 1px solid rgba(32, 32, 32, 0.521);
+        border: 1px solid rgb(131, 131, 131); */
+    }
+
+    .card .inputs input[type="text"][readonly] {
+        border: 2px solid rgba(0, 0, 0, 0)
+    }
+
+    input[type='file'] {
+        display: none;
+    }
+
+    .form-input label {
+        display: block;
+        width: 45%;
+        height: 45px;
+        margin-left: 25%;
+        line-height: 50px;
+        text-align: center;
+        background: #1172c2;
+
+        color: #fff;
+        font-size: 15px;
+        font-family: "Open Sans", sans-serif;
+        text-transform: Uppercase;
+        font-weight: 600;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .form-input img {
+        width: 100%;
+        display: none;
+
+        margin-bottom: 30px;
+    }
+
+    #updatebtn {
+        display: none;
+    }
+</style>
+
+<body style="background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);min-width:100vw;">
+    <nav style="background-color: #85859c;height: 50px;">
+        <!-- <nav style=" background: linear-gradient(to right, #780206, #061161);"> -->
+        <!-- Left Section  -->
+        <div class="nav-left"style="padding-top:14px;">
+            <a href="{% url 'facultyhome' %}" style="text-decoration: none;"><span class="logo"
+                    style="color: white;font-size: 25px;font-weight: bold;letter-spacing: 2px;filter: progid:DXImageTransform.Microsoft.Glow(Color=#ffffff,Strength=1);text-shadow: 0 0 4px rgb(57, 226, 5);margin-left:40px;padding-bottom: 5px;">inCampus</span></a>
+        </div>
+        <!-- Right Section  -->
+        <div class="nav-right">
+
+        </div>
+
+        <!-- Settings Menu Section  -->
+    </nav>
+    <div class="container"
+        style="background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);min-width:100vw;">
+
+
+        <div class="card" style="background:#514257;color:black;
+        box-shadow: -4px -4px 10px rgba(67, 67, 67, 0.5),
+         inset 4px 4px 10px rgba(0, 0, 0, 0.5),
+         inset -4px -4px 10px rgba(67, 67, 67, 0.3),
+         4px 4px 10px rgba(0, 0, 0, 0.3);border: 1px solid rgb(36, 33, 33);">
+            <div class="info" style='background-color:transparent'>
+                <span>Edit Faculty Profile</span>
+                <button id="savebutton" style="background-color: orange;outline: none;border: none;">edit</button>
+            </div>
+
+            <form class="center" enctype="multipart/form-data" method="post" action="{% url 'facultyedit' %}">
+                {% csrf_token %}
+
+                <div class="preview" style="display: grid;place-items: center; height: fit-content;">
+                    <img id="file-ip-1-preview"
+                        style='border-radius:50%;height:100px;width:100px;border:3px solid white;box-shadow:0 0 10px 2px rgb(39, 38, 38)'
+                        src="{{data.profile_pic.url}}">
+                    {{pform.profile_pic.url.value}}
+                </div>
+                <label for="file-ip-1"
+                    style="font-size: 15px;color: #45ffbc;font-weight: bold;text-align: center;cursor: pointer;">Change
+                    Profile
+                    picture</label>
+                <input type="file" id="file-ip-1" accept="image/*" onchange="showPreview(event);" name="profile_pic">
+
+                <div class="inputs">
+                    <span>Firstname</span>
+
+                    <input type="text" readonly value="{{data.firstname}}" name="firstname"
+                        style='background-color:transparent;border-radius: 10px;'>
+                </div>
+                <div class="inputs">
+                    <span>Lastname</span>
+
+                    <input type="text" readonly value="{{data.lastname}}" name="lastname"
+                        style='background-color:transparent;border-radius: 10px;'>
+                </div>
+
+
+                <div class="inputs">
+                    <span>phone number</span>
+
+                    <input type="text" readonly value="{{data.Phone}}" name="Phone"
+                        style='background-color:transparent;border-radius: 10px;'>
+                </div>
+
+
+                <button id="updatebtn"
+                    style="width: fit-content;background-color: rgb(3, 122, 83);padding: 1px 5px;margin-bottom: 10px;"
+                    type="submit">Update profile</button>
+            </form>
+
+        </div>
+    </div>
+
+
+    <script>
+        var savebutton = document.getElementById('savebutton');
+        var updatebtn = document.getElementById('updatebtn');
+        var readonly = true;
+        var inputs = document.querySelectorAll('input[type="text"]');
+        savebutton.addEventListener('click', function () {
+
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].toggleAttribute('readonly');
+            };
+
+            if (savebutton.innerHTML == "edit") {
+                savebutton.innerHTML = 'cancel';
+                updatebtn.style.display = 'block';
+
+            } else {
+                savebutton.innerHTML = "edit";
+                updatebtn.style.display = 'none';
+
+            }
+
+        });
+    </script>
+    <!-- profile update form -->
+    <script type="text/javascript">
+        function showPreview(event) {
+            if (event.target.files.length > 0) {
+                var src = URL.createObjectURL(event.target.files[0]);
+                var preview = document.getElementById("file-ip-1-preview");
+                preview.src = src;
+                preview.style.display = "block";
+            }
+        }
+    </script>
+
+
+</body>
+
+</html>
