@@ -23,8 +23,11 @@ class debate_reply(models.Model):
     reply=models.TextField(blank=False)
     date=models.DateTimeField(auto_now_add=True)
 
-class stydymaterials(models.Model):
+
+
+class f_studymaterials(models.Model):
     faculty=models.ForeignKey(facultyprofile,on_delete=models.CASCADE,blank=False)
+    note=models.TextField(blank=False)
     file=models.FileField(upload_to='studymaterials/',blank=False)
     date=models.DateTimeField(auto_now_add=True,blank=False)
     department=models.CharField(max_length=50,blank=False)

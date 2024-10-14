@@ -388,6 +388,80 @@
     .picture__img {
         max-width: 100%;
     }
+
+    .news-item {
+        background-color: #626879;
+
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .news-item1 {
+        background-color: orange;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .news-item2 {
+        background-color: green;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .news-item h3 {
+        color: #fff;
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin-bottom: 10px;
+    }
+
+    .news-item p {
+        color: #fff;
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    .news-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        background-color: #626879;
+    }
+
+
+
+    /* ------------------------- button -------------------- */
+    .button-click {
+        color: #000;
+        margin: 10px;
+        background-color: #fff;
+        padding: 10px;
+        width: 150px;
+        font-weight: bold;
+        font-size: 14px;
+        align-items: center;
+        border: 0.5px solid gray;
+        border-radius: 8px;
+        box-sizing: border-box;
+        cursor: pointer;
+        justify-content: center;
+        -webkit-box-shadow: 10px 10px 0px 3px rgba(0, 0, 0, 1);
+        -moz-box-shadow: 10px 10px 0px 3px rgba(0, 0, 0, 1);
+        box-shadow: 3px 4px 0px 3px rgba(0, 0, 0, 1);
+        transition: ease all 0.5s;
+    }
+
+    .button-click:hover {
+        -webkit-box-shadow: 10px 10px 0px 3px rgba(0, 0, 0, 1);
+        -moz-box-shadow: 10px 10px 0px 3px rgba(0, 0, 0, 1);
+        box-shadow: -3px -4px 0px 3px rgba(0, 0, 0, 1);
+        transition: ease all 0.5s;
+    }
 </style>
 
 <body style="background-color: white;color: #000;">
@@ -492,8 +566,9 @@
 
             <ul class="floating-menu" style="padding-bottom: 20%;">
 
-                <li><a href="{% url 'communitypage' %}">Study Materials</a></li>
-                <li><a href="{% url 'debatespage' %}">Debates</a></li>
+                <li><a href='{% url "studymaterials" %}'>Study Materials</a></li>
+                <li><a href='{% url "debatespage" %}' style="color: yellow;">Debates</a></li>
+
                 <li><a href="{% url 'communitypage' %}">Community</a></li>
                 <li><a href="{% url 'feedbacks' %}">Feedbacks</a></li>
 
@@ -513,85 +588,13 @@
 
             <!-- Uploaded Posts Section  -->
             <!-- Post 1  -->
-            {% for i in posts reversed %}
-            <div class="post-container" id="{{i.id}}" style=" background:#393846;padding: 20px;width: 80%;">
-                <div class="post-row" style="justify-content: space-around;">
-
-
-                    <div class="user-profile" style="width: 80%;align-items: flex-start;">
-                        <a href="{% url 'studentprofile' i.user.username %}">
-
-                            <img src="{{i.post_profile.profile_pic.url}}"
-                                style="height: 50px;width:50px;border:3px solid rgb(105, 255, 163);" />
-                        </a>
-
-                        <div>
-                            <p class="fw-bold" style="color:rgb(227, 252, 1)">{{i.user.first_name}} {{i.user.last_name}}
-                            </p>
-                            <span style="font-size: 14px;color:#8c8aa7;">{{i.upload_date}}</span>
-                        </div>
-                    </div>
-
-                </div>
-                <p class="post-text fw-normal"
-                    style="font-weight: bold;letter-spacing:1px;color: rgb(224, 224, 224);width: 100%;margin-left: 40px;">
-                    {{i.caption}}
-                </p>
-                <hr style="color: rgb(230, 230, 230);">
-                <div class="post-row" style="display:grid;place-items: center;justify-content: center;">
-
-                    <img src="{{i.post.url}}" alt="" style="width: 400px;height: 300px;object-fit: contain;">
-
-                </div>
-                <div class="post-row" style="display: flex;align-items: center;justify-content: flex-start;">
-                    <div class="activity-icons "
-                        style="display: flex;align-items: center;justify-content:space-between;color: #45ffbc;margin: 10px 40px;">
-
-
-                        {% if user in i.likes.all %}
-                        <button style="background-color:transparent;border: 0;outline: 0;" class="likebtn mx-2"
-                            type="submit">
-                            {% csrf_token %}
-
-                            <i class="fas fa-heart" style='font-size:40px;color:red;' onclick='likepost(this)'
-                                id="{{i.id}}"></i>
-                        </button>
-
-                        {% else %}
-
-                        <button style="background-color:transparent ;border: 0;outline: 0;" class="likebtn mx-2"
-                            type="submit">
-                            {% csrf_token %}
-
-                            <i class="fas fa-heart" style='font-size:40px;color:grey;' onclick='likepost(this)'
-                                id="{{i.id}}"></i>
-
-
-                        </button>
-
-                        {% endif %}
-
-                        {% comment %}
-                        </a> {% endcomment %}
-
-                        <span class="fw-bold" id="likecount{{i.id}}"
-                            style="color: #45ffbc;margin-right: 3px;">{{i.likes.count}} </span>Like
-                        <a href="{% url 'fcomment' i.id %}" style="text-decoration:none ;margin-left: 40px;">
-                            <div class="comment fw-bold" style="color:  #45ffbc;">
-                                <i class="far fa-comment"
-                                    style="border-radius: 50%;height: 40px;width: 40px;font-size: 40px;margin-right: 5px;"></i>
-
-                                Comments
-
-                            </div>
-                        </a>
-                    </div>
-                </div>
+            <div class="news-item"style="margin-top:60px;">
+                <h3>{{debates.topic}} </h3>
+                <p>{{debates.d_date}}</p>
+                
+             
             </div>
-            {% endfor %}
-            You're all caught up...
-
-
+            replies
             <!-- Right Sidebar  -->
             <!-- <div style="color: black;">
     
@@ -708,7 +711,6 @@
                 </div>
             </div>
         </div>
-
         <!-- sign out form model  -->
 
         <div class="modal fade " id="community" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"

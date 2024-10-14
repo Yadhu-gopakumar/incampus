@@ -7,14 +7,16 @@ urlpatterns=[
     path('facultyedit/',views.facultyedit,name='facultyedit'),
     path('addcommunity', views.addcommunity,name='addcommunity'),
     path('adddebate/',views.adddebate,name='adddebate'),
+    path('feedbacks/',views.feedbacks,name="feedbacks"),
+    path('debatespage/',views.debatespage,name="debatespage"),
+    path('communitypage/',views.communitypage,name="communitypage"),
 
-
-    # path('profile/<str:user>/',views.studentprofile,name='studentprofile'),
-    # path('deletepost/<int:post_id>/', views.deletepost,name='deletepost'),
+    path('studymaterials/',views.studymaterialsview,name='studymaterials'),
+    path('deletenote/<int:id>/', views.deletenote,name='deletenote'),
     # path('pdeletepost/<int:post_id>/', views.pdeletepost,name='pdeletepost'),
-    # path('like/<int:id>/', views.like,name='like'),
+    path('viewdebate/<int:id>/', views.viewdebate,name='viewdebate'),
     # path('comment/<int:id>/',views.comment,name='comment'),
-    # path('deletecomment/<int:id>/',views.deletecomment,name='deletecomment'),
-    # path('profile/<int:id>/follow/',views.follow,name='follow'),
+    path('deletecommunity/<int:id>/',views.deletecommunity,name='deletecommunity'),
+    path('deletedebate/<int:id>/',views.deletedebate,name='deletedebate'),
     # path('profilelike/<int:user>/like<int:id>/',views.profilelike,name='profilelike'),
 ]
