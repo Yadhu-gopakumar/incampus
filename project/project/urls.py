@@ -25,3 +25,7 @@ if settings.DEBUG:
 
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns += staticfiles_urlpatterns()
+
+admin.site.site_header = "inCampus"
+admin.site.site_title = "inCampus Admin Portal"
+admin.site.index_title = "Welcome to inCampus Admin Portal"

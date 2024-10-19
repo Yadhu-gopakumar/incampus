@@ -467,6 +467,7 @@
 <body style="background-color: white;color: #000;">
 
     <!-- Navigation Section  -->
+    {% if isfaculty %}
     <nav style="background-color: #85859c">
         <!-- <nav style=" background: linear-gradient(to right, #780206, #061161);"> -->
         <!-- Left Section  -->
@@ -555,7 +556,112 @@
         </div>
 
     </nav>
+    {% else %}
+    <nav style="background-color: #85859c">
+        <!-- <nav style=" background: linear-gradient(to right, #780206, #061161);"> -->
+        <!-- Left Section  -->
+        {% if not isfaculty %}
 
+        <div class="nav-left">
+            <a href="{% url 'homepage' %}" style="text-decoration: none;"><span class="logo"
+                    style="color: white;font-size: 25px;font-weight: bold;letter-spacing: 2px;filter: progid:DXImageTransform.Microsoft.Glow(Color=#ffffff,Strength=1);text-shadow: 0 0 4px rgb(57, 226, 5);">inCampus</span></a>
+
+        </div>
+        <!-- Right Section  -->
+        <div class="nav-right">
+            <!-- Searchbox  -->
+
+            <a href="{% url 'search' %}">
+                <div class="addpost mx-2" style="background: linear-gradient(327.43deg, #32383E -77.68%, #17191C 87.35%);
+      border: none;
+      box-shadow: -4px -2px 16px rgba(195,200,205,0), 4px 4px 18px rgba(0, 0, 0, 0.5);">
+
+                    <button type="button" class="btn btn-light" style="background: linear-gradient(327.43deg, #3e5368 -77.68%, #1f2835 87.35%);
+        border: none;
+        box-shadow: -4px -2px 16px rgba(195,200,205,0), 4px 4px 18px rgba(0, 0, 0, 0.5);color:white;"><i
+                            class="fa fa-search" style="margin-right:7px;"></i>Find Friends</button>
+
+                </div>
+            </a>
+            <div class="addpost mx-2" style="background: linear-gradient(327.43deg, #4a6064 -77.68%, #17191C 87.35%);
+      border: none;
+      box-shadow: -4px -2px 16px rgba(195,200,205,0), 4px 4px 18px rgba(0, 0, 0, 0.5);">
+
+                <button type="button" class="btn btn-light" data-toggle="modal" data-target="#addpost"
+                    data-whatever="@mdo" style="background: linear-gradient(327.43deg, #3e5368 -77.68%, #1f2835 87.35%);
+        border: none;
+        box-shadow: -4px -2px 16px rgba(195,200,205,0), 4px 4px 18px rgba(0, 0, 0, 0.5);color:white;"><i
+                        class="fa-solid fa-plus" style="margin-right:7px;"></i>Add Post</button>
+
+            </div>
+            <div class="nav-user-icon online" onclick="settingsMenuToggle()" style="margin-left: 10px;">
+                <img src="{{ data.profile_pic.url }}" style="border:3px solid #45ffbc;background-color: white;" />
+            </div>
+
+
+        </div>
+        {% else %}
+        <div class="nav-left">
+            <a href="{% url 'facultyhome' %}" style="text-decoration: none;"><span class="logo"
+                    style="color: white;font-size: 25px;font-weight: bold;letter-spacing: 2px;filter: progid:DXImageTransform.Microsoft.Glow(Color=#ffffff,Strength=1);text-shadow: 0 0 4px rgb(57, 226, 5);">inCampus</span></a>
+
+        </div>
+        <div class="nav-right"></div>
+        {% endif %}
+
+        <!-- Settings Menu Section  -->
+        <div class="settings-menu" style="background-color: rgb(255, 255, 255);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    -webkit-box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 20px rgba(14, 13, 13, 0.356);">
+
+            <!-- Dark Button Toggle  -->
+            {% if isfaculty %}
+            <div></div>
+            {% else %}
+            <div class="settings-menu-inner" style="color: #000;background-color: #677f9760;">
+                <div class="user-profile">
+                    <img src="{{ data.profile_pic.url }}" style="height: 50px;width:50px;border:3px solid #45ffbc;" />
+                    <div>
+                        <p style="color: rgb(0, 0, 0);">{{data.firstname}}_{{data.lastname}}</p>
+
+                        <a href="{% url 'studentprofile' request.user.username %}" style="color: rgb(27, 22, 56);">See
+                            your profile</a>
+
+                    </div>
+                </div>
+                <hr />
+
+                <hr />
+
+                <div class="settings-links">
+                    <a href="{% url 'studentedit' %}" style="color: rgb(0, 64, 107);">
+                        <button type="button" class="btn btn-disabled" style="color: rgb(0, 0, 0);">
+                            <img src="{% static 'images/setting.png' %}" class="settings-icon" />
+                            edit Profile
+                        </button>
+                    </a>
+                </div>
+
+
+                <div class="settings-links">
+
+                    <button type="submit" class="btn btn-disable" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop" style="color: rgb(0, 0, 0);">
+                        <img src="{% static 'images/logout.png' %}" class="settings-icon" />
+                        logout
+                    </button>
+
+
+
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+    </nav>
+    {% endif %}
     <!-- Main Content Section  -->
 
     <div class="container-fluid" style="background-color:transparent;color:black;display: grid;grid-template-columns: 0.3fr 1fr ;height: 100vh;overflow-y: hidden;scrollbar-width: 0;background: rgb(238,174,202);
@@ -564,16 +670,27 @@
         <!-- Left Sidebar  -->
         <div>
 
+            {% if isfaculty %}
             <ul class="floating-menu" style="padding-bottom: 20%;">
 
-                <li><a href='{% url "studymaterials" %}' style="color: yellow;">Study Materials</a></li>
-                <li><a href='{% url "debatespage" %}'>Debates</a></li>
 
+                <li><a href="{% url 'studymaterials' %}" style="color: yellow;">Study Materials</a></li>
+                <li><a href="{% url 'debatespage' %}">Debates</a></li>
                 <li><a href="{% url 'communitypage' %}">Community</a></li>
                 <li><a href="{% url 'feedbacks' %}">Feedbacks</a></li>
 
+            </ul>
+            {% else %}
+            <ul class="floating-menu" style="padding-bottom: 20%;">
+
+
+                <li><a href="{% url 'sstudymaterialsview' %}" style="color: yellow;">Study Materials</a></li>
+                <li><a href="{% url 'sdebatespage' %}">Debates</a></li>
+                <li><a href="{% url 'scommunitypage' %}">Community</a></li>
+                <li><a href="{% url 'sfeedbacks' %}">Feedbacks</a></li>
 
             </ul>
+            {% endif %}
 
 
         </div>
@@ -592,22 +709,25 @@
 
 
 
-
+            {% if isfaculty %}
             <div class="container"
                 style="width: 500px;color: black;margin-top: 60px;display: grid;place-items: center;">
 
-                <form method='post' style="display: grid;place-items: center;" action="{% url 'studymaterials' %}"
+                <form method='post' style="display: grid;place-items: center;color: black;" action="{% url 'studymaterials' %}"
                     enctype="multipart/form-data">
                     {% csrf_token %}
-
-                    <div class="row">
+                    Share new study material
+                    <div class="row mt-3">
                         <input type="text" class="form-control" placeholder="Note summary" name="summary">
                     </div>
-                    <div class="my-3" style="background-color: #3527ff54;width: 60%;height: 40px;">
-                        <label for="exampleFormControlFile1" class="form-label" style="color: black;">Upload
+                      
+                    <div class="my-3" style="background-color: #3527ff54;width: 100%;height: 30px;display: grid;place-items: center;">
+                   
+                        <label for="exampleFormControlFile1" class="form-label" style="color: black;text-align: center;cursor: pointer;">Upload
                             File</label>
-                        <input type="file" class="form-control" id="exampleFormControlFile1" name="note">
+                        <input type="file" class="form-control" id="exampleFormControlFile1" name="note" style="width:100%;">
                     </div>
+                  
                     <button type="submit" class="btn btn-primary">share note</button>
                 </form>
             </div>
@@ -616,16 +736,35 @@
             {% for s in s_all reversed %}
 
             <div class="news-item">
-                <h4><a href="{{s.file.url}}" download="{{s.file.url}}" style="text-decoration: none;">{{s.note}}</a>
+                <h4 Download style="text-decoration: none;color: rgb(161, 161, 255);">{{s.note}}
                 </h4>
 
-                <p>shared by- {{s.faculty}} </p>
+                <p>shared by- {{s.faculty.firstname}} {{s.faculty.lastname}} </p>
 
 
                 <a href="{% url 'deletenote' s.id %}"><button class="button-click">Delete</button></a>
+                <a href="{{s.file.url}}" download="{{s.file.url}}"><button class="button-click">Download</button></a>
 
             </div>
             {% endfor %}
+            {% else %}
+            Your study materials
+
+            {% for s in s_all reversed %}
+            <div class="news-item">
+                <h4 style="text-decoration: none;color: rgb(161, 161, 255);">{{s.note}}
+                </h4>
+
+                <p>shared by- {{s.faculty.firstname}} {{s.faculty.lastname}} </p>
+
+
+                    <a href="{{s.file.url}}" download="{{s.file.url}}"><button class="button-click">Download</button></a>
+
+
+            </div>
+            {% endfor %}
+            {% endif %}
+
             <!-- Right Sidebar  -->
             <!-- <div style="color: black;">
     
@@ -733,10 +872,17 @@
                     </div>
                     <div class="modal-footer">
 
+                        {% if isfaculty %}
                         <form action="{% url 'facultylogout' %}" method="post">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-warning">Sign out</button>
                         </form>
+                        {% else %}
+                        <form action="{% url 'studentlogout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-warning">Sign out</button>
+                        </form>
+                        {% endif %}
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </div>

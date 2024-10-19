@@ -396,7 +396,7 @@
     <nav style="background-color: #85859c">
         <!-- <nav style=" background: linear-gradient(to right, #780206, #061161);"> -->
         <!-- Left Section  -->
-        {% if not faculty %}
+        {% if not isfaculty %}
 
         <div class="nav-left">
             <a href="{% url 'homepage' %}" style="text-decoration: none;"><span class="logo"
@@ -406,6 +406,7 @@
         <!-- Right Section  -->
         <div class="nav-right">
             <!-- Searchbox  -->
+
             <a href="{% url 'search' %}">
                 <div class="addpost mx-2" style="background: linear-gradient(327.43deg, #32383E -77.68%, #17191C 87.35%);
       border: none;
@@ -452,7 +453,9 @@
     box-shadow: 0 2px 20px rgba(14, 13, 13, 0.356);">
 
             <!-- Dark Button Toggle  -->
-
+            {% if isfaculty %}
+           <div></div>
+            {% else %}
             <div class="settings-menu-inner" style="color: #000;background-color: #677f9760;">
                 <div class="user-profile">
                     <img src="{{ data.profile_pic.url }}" style="height: 50px;width:50px;border:3px solid #45ffbc;" />
@@ -490,7 +493,7 @@
 
                 </div>
             </div>
-
+            {% endif %}
         </div>
 
     </nav>

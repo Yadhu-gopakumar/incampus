@@ -15,8 +15,6 @@ class userprofile(models.Model):
     dob=models.DateField(blank=True,null=True)
     bio=models.CharField(max_length=200,blank=True)
 
-    def __str__(self) -> str:
-        return self.reg_no
     
 class facultyprofile(models.Model):
   

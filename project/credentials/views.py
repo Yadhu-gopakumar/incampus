@@ -5,28 +5,6 @@ from .models import userprofile,facultyprofile
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-#admin credentials
-
-def adminlogin(request):
-    if request.method=="POST":
-        username=request.POST["username"]
-        password=request.POST["password"]
-        user=auth.authenticate(username=username,password=password)
-        if user is not None:
-            auth.login(request,user)
-            return redirect('adminDashboard')
-        else:
-            messages.info(request,'invalid credentials')
-    return render(request,'adminlogin.html')
-
-def adminlogout(request):
-    auth.logout(request)
-    return redirect('adminlogin')
-
-
-
-#admin credentials
-
 
 #student credentials
 
@@ -44,7 +22,7 @@ def studentreg(request):
         cpassword=request.POST['cpswd']
         if cpassword==password:
             check_avail=userprofile.objects.filter(reg_no=reg).exists()
-            if check_avail :
+            if check_avail is not None:
                 if User.objects.filter(username=reg).exists():
                     
                     messages.info(request,"Already registered!")
@@ -75,28 +53,28 @@ def studentlogin(request):
     if request.method=='POST':
         reg_no=request.POST["regno"]
         password=request.POST["pswd"]
-       
-        user=auth.authenticate(username=reg_no,password=password)
-        print(user)
-        if user is not None:
-            auth.login(request,user)
-            return redirect('homepage')
+        s_obj=userprofile.objects.filter(reg_no=reg_no).exists()
+        if s_obj:
+            user=auth.authenticate(username=reg_no,password=password)
+        
+            if user is not None:
+                auth.login(request,user)
+                return redirect('homepage')
 
+            else:
+
+                messages.info(request,"invalid credentials")
+                return redirect('studentlogin')
         else:
 
             messages.info(request,"invalid credentials")
             return redirect('studentlogin')
-
     return render(request,'studentlogin.html')
 
-@login_required
+@login_required(login_url='stuentlogin')
 def studentlogout(request):
     auth.logout(request)
     return redirect("studentlogin")
-#student credentials
-
-
-#faculty credentials 
 
 
 def facultyreg(request):
@@ -111,7 +89,7 @@ def facultyreg(request):
         cpassword=request.POST['cpswd']
         if cpassword==password:
             check_avail=facultyprofile.objects.filter(email=email).exists()
-            if check_avail :
+            if check_avail is not None:
                 if User.objects.filter(username=email).exists():
                     
                     messages.info(request,"Already registered!")
@@ -138,25 +116,29 @@ def facultyreg(request):
 
     return render(request,'facultyregister.html')
 
-
 def facultylogin(request):
     if request.method=='POST':
         mail=request.POST["email"]
         password=request.POST["pswd"]
-       
-        user=auth.authenticate(username=mail,password=password)
-        print(user)
-        if user is not None:
-            auth.login(request,user)
-            return redirect('facultyhome')
+        f_obj=facultyprofile.objects.filter(email=mail).exists()
+        if f_obj:
 
+            user=auth.authenticate(username=mail,password=password)
+            print(user)
+            if user is not None:
+                auth.login(request,user)
+                return redirect('facultyhome')
+
+            else:
+
+                messages.info(request,"invalid credentials")
+                return redirect('facultylogin')
         else:
 
             messages.info(request,"invalid credentials")
             return redirect('facultylogin')
-
     return render(request,'facultylogin.html')
-
+@login_required(login_url='facultylogin')
 def facultylogout(request):
     auth.logout(request)
     return redirect('facultylogin')

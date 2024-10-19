@@ -10,13 +10,13 @@ urlpatterns=[
     path('feedbacks/',views.feedbacks,name="feedbacks"),
     path('debatespage/',views.debatespage,name="debatespage"),
     path('communitypage/',views.communitypage,name="communitypage"),
-
     path('studymaterials/',views.studymaterialsview,name='studymaterials'),
     path('deletenote/<int:id>/', views.deletenote,name='deletenote'),
-    # path('pdeletepost/<int:post_id>/', views.pdeletepost,name='pdeletepost'),
     path('viewdebate/<int:id>/', views.viewdebate,name='viewdebate'),
     # path('comment/<int:id>/',views.comment,name='comment'),
     path('deletecommunity/<int:id>/',views.deletecommunity,name='deletecommunity'),
     path('deletedebate/<int:id>/',views.deletedebate,name='deletedebate'),
+    path('deletedebatereply/<int:id>/',views.deletedebatereply,name='deletedebatereply'),
+
     # path('profilelike/<int:user>/like<int:id>/',views.profilelike,name='profilelike'),
 ]

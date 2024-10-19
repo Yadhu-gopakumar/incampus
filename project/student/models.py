@@ -4,7 +4,7 @@ from credentials.models import userprofile
 # Create your models here.
 
 class post_table(models.Model):
-   user=models.ForeignKey(User,on_delete=models.CASCADE,max_length=200,blank=False)
+   user=models.ForeignKey(User,on_delete=models.CASCADE)
    post_profile=models.ForeignKey(userprofile,on_delete=models.CASCADE)
    caption=models.CharField(max_length=200)
    post=models.ImageField(blank=False,upload_to='posts')

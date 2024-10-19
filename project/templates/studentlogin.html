@@ -41,7 +41,7 @@
                 {% for i in messages %}
                 <p style="color:orange ;">{{i}}</p>
                 {% endfor %}
-                <div class="titlef" style="color:white">Sign Up</div>
+                <div class="titlef" style="color:white">Sign In</div>
 
                 <form action="{% url 'studentlogin' %}" method="post">
                     {% csrf_token %}

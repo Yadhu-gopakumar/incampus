@@ -1,6 +1,37 @@
-admin:yadhu
+admin:admin123
 paswd:1234
+--------------------
+main url : base/(127.0.0.1:8000)
+faculty url : base/faculty(127.0.0.1:8000/faculty)
+admin : base/admin(127.0.0.1:8000/admin)
 
-main url : base/
-faculty url : base/faculty
-admin : credentials/adminlogin
+student default: login[ regno: 1202,password:1234]
+faculty default: login[ email: f@gmail.com,password:1234]
+---------------------
+#first
+create db as name 'college'
+
+#then use below commands
+-python -m venv myenv
+
+#after creating virtual env,activate it
+and run this command
+
+- pip install -r /path/to/requirements.txt
+
+#then
+
+python manage.py makemigrations credentials
+python manage.py migrate credentials
+
+python manage.py makemigrations student
+python manage.py migrate student
+
+python manage.py makemigrations faculty
+python manage.py migrate faculty
+
+python manage.py makemigrations admin_module
+python manage.py migrate admin_module
+
+
+python manage.py runserver

@@ -1,7 +1,9 @@
 import json
 from django.http import JsonResponse
 from django.shortcuts import render,redirect
-from credentials.models import userprofile
+from credentials.models import userprofile,facultyprofile
+from faculty.models import community_table,debate,debate_reply,f_studymaterials
+from admin_module.models import feedbacktable
 from .models import post_table,comments
 from django.contrib.auth.decorators import login_required
 from .form import profileform
@@ -10,24 +12,35 @@ from django.contrib.auth.models import User
 @login_required(login_url='studentlogin')
 def home(request):
     posts=post_table.objects.all()
-    userh=userprofile.objects.get(reg_no=request.user.username)
+    userh=userprofile.objects.get(reg_no=request.user)
+    print(userh.profile_pic.url)
     
-    return render(request,'feed.html',{'data':userh,'posts':posts})
+    return render(request,'feed.html',{'data':userh,'posts':posts,'isfaculty':False})
 
 
 @login_required(login_url='studentlogin')
 def studentprofile(request,user):
+        isfaculty=False
 
         userdata=userprofile.objects.get(reg_no=user)
         comment=comments.objects.all()
         current=request.user
-        currentuser=userprofile.objects.get(reg_no=current)
+        try:
+            currentuser=userprofile.objects.get(reg_no=current)
+            isfaculty=False
+
+            if currentuser.following.filter(username=userdata.reg_no).exists():
+                isfollowing=True
+            else:
+                isfollowing=False 
+        except:    
+            currentuser=facultyprofile.objects.get(email=current)
+            isfaculty=True
+            isfollowing=False 
+
         
         posts=post_table.objects.filter(user__username=user).all()
-        if currentuser.following.filter(username=userdata.reg_no).exists():
-            isfollowing=True
-        else:
-            isfollowing=False    
+       
         context={
             'profile_data':userdata,
             'userprofile':currentuser,
@@ -35,6 +48,7 @@ def studentprofile(request,user):
             'comments':comment,
             'isfollowing':isfollowing,
             'data':currentuser,
+            'isfaculty':isfaculty,
         }
         return render(request,'studentprofile.html',context)   
 
@@ -182,6 +196,7 @@ def comment(request,id):
     
     post=post_table.objects.get(id=id)
     currentuser=userprofile.objects.get(reg_no=request.user.username)
+         
     postcomments=comments.objects.filter(post=post)
     print(currentuser)
     context={
@@ -240,16 +255,6 @@ def search(request):
         res=userprofile.objects.filter(firstname__icontains=q) | userprofile.objects.filter(lastname__icontains=q) 
    
         if res is not None:
-            # resobj=[]
-            # for i in res:
-            #     # if currentuserobject.following.filter(username=followerid).exists():
-
-            #     if i.following.filter(username=currentuser).exists():
-            #         resobj.append({'isfollowing':True,'data':res})
-            #     else:
-            #         resobj.append({'isfollowing':False,'data':res})
-                    
-                 
             context={
                 'userprofile':currentuser,
                 'data':res,
@@ -264,3 +269,93 @@ def search(request):
         return render(request,'search.html',context)
                     
     return render(request,'search.html',context)
+
+
+
+def scommunitypage(request):
+    userh=userprofile.objects.get(reg_no=request.user.username)
+
+    comm=community_table.objects.filter(department=userh.department).all()
+    return render(request,'facultycommunity.html',{'comm':comm,'data':userh,'isfaculty':False})   
+
+
+
+
+def sfeedbacks(request):
+    userh=userprofile.objects.get(reg_no=request.user.username)
+    feedbacklist=feedbacktable.objects.filter(f_user=request.user.username).all()
+ 
+    if request.method=="POST":
+        fname=request.POST['fname']
+        lname=request.POST['lname']
+        email=request.POST['email']
+        feedback=request.POST['feedback']
+
+        f_inst=feedbacktable.objects.create(
+            f_user=request.user.username,
+            firstname=fname,
+            lastname=lname,
+            email=email,
+            feedback=feedback,
+          
+            )
+        f_inst.save()
+        feedbacklist=feedbacktable.objects.filter(f_user=request.user.username).all()
+        print('haaaaai')
+   
+        return render(request,'feedbacks.html',{'data':userh,'feedbacklist':feedbacklist})
+
+    return render(request,'feedbacks.html',{'data':userh,'feedbacklist':feedbacklist})
+
+
+def sdebatespage(request):
+    isfaculty=False
+    userh=userprofile.objects.get(reg_no=request.user.username)
+
+    d=debate.objects.filter(department=userh.department).all()
+    return render(request,'debatespage.html',{'debates':d,'data':userh,'isfaculty':isfaculty})
+
+
+def sstudymaterialsview(request):
+    userh=userprofile.objects.get(reg_no=request.user.username)
+    isfaculty=False
+    s_all=f_studymaterials.objects.filter(department=userh.department).all()
+    
+    return render(request,'studymaterials.html',{'s_all':s_all,'isfaculty':isfaculty,'data':userh})
+
+
+
+def sviewdebate(request,id):
+    isfaculty=False
+    userh=userprofile.objects.get(reg_no=request.user.username)
+    d=debate.objects.get(id=id)
+
+    replies=debate_reply.objects.filter(debate__id=id).all()
+    
+
+    return render(request,'onedebatepage.html',{'data':userh,'debates':d,'replies':replies,'isfaculty':isfaculty})
+
+
+def add_sdebatereply(request,id):
+    userh=userprofile.objects.get(reg_no=request.user.username)
+    d=debate.objects.get(id=id)
+    faculty=facultyprofile.objects.get(email=d.facultyname)
+    replies=debate_reply.objects.filter(debate__id=id).all()
+    if request.method=="POST":
+        reply=request.POST['d_reply']
+        debate_reply.objects.create(debate=d,user=userh,faculty=faculty,reply=reply).save()
+        replies=debate_reply.objects.filter(debate__id=id).all()
+
+        return render(request,'onedebatepage.html',{'data':userh,'debates':d,'replies':replies,'isfaculty':False})
+
+
+    return render(request,'onedebatepage.html',{'data':userh,'debates':d,'replies':replies,'isfaculty':False})
+
+
+def sdeletedebatereply(request,id,debate_id):
+    userh=userprofile.objects.get(reg_no=request.user.username)
+    d=debate.objects.get(id=debate_id)
+    replies=debate_reply.objects.filter(debate=d).all()
+    debate_reply.objects.get(id=id).delete()
+    # return redirect('')
+    return render(request,'onedebatepage.html',{'data':userh,'debates':d,'replies':replies,'isfaculty':False})

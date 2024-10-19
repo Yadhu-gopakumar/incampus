@@ -19,6 +19,8 @@
         <div style="flex-direction:column ;text-align:start;">
           <h3><b style="color:#000000">{{profile_data.reg_no}}</b></h3>
           <h5><b style="color:#000e35">{{profile_data.firstname}} {{profile_data.lastname}}</b></h5>
+          <b style="color:#313133" style="font-size:16px">department - {{profile_data.department}}</b>
+
           <p class="profile-desc text-start" style="color:#000e35">
             {{profile_data.bio}}
           </p>
@@ -27,19 +29,22 @@
 
 
       </div>
+
       <div
         style="display:flex;flex-direction:row ;text-align: center; justify-content: space-around;width:fit-content;margin: 20px 0 0 5px;">
-        <p style="margin-right: 10px;cursor:pointer;color: black;" data-toggle="modal" data-target="#following">
+        <p style="margin-right: 10px;cursor:pointer;color: black;" data-toggle="modal" data-target="#following"
+          class="btn btn-outline-secondary">
           following:<b style="color: rgb(0, 0, 0);"> {{profile_data.following.count}}</b>
         </p>
-        <p style="margin-right: 10px;cursor:pointer;color: black;" data-toggle="modal" data-target="#followers">
+        <p style="margin-right: 10px;cursor:pointer;color: black;" data-toggle="modal" data-target="#followers"
+          class="btn btn-outline-secondary">
           followers:<b style="color: rgb(0, 0, 0);"><span id="followingcount" style="color: rgb(0, 0, 0);">
               {{profile_data.followers.count}}</span></b>
         </p>
         <p style="color: rgb(0, 0, 0);">posts:<b> {{profile_data.posts.count}}</b> </p>
       </div>
     </div>
-    {% if profile_data == userprofile %}
+    {% if profile_data == userprofile or isfaculty %}
     <div></div>
     {% else %}
     <div class="r">
@@ -93,19 +98,24 @@
 
 
           <div class="user-profile">
-            <a href="{% url 'homepage' %}">
+            <!-- {% if isfaculty %} -->
+            <a href="{% url 'studentprofile' i.user.username %}">
+<!-- 
+              {% else %}
+              <a href="{% url 'homepage' %}">
+                {% endif %} -->
 
-              <img src="{{i.post_profile.profile_pic.url}}"
-                style="height: 50px;width:50px;border:3px solid #45ffbc;background-color: white;" />
-            </a>
+                <img src="{{i.post_profile.profile_pic.url}}"
+                  style="height: 50px;width:50px;border:3px solid #45ffbc;background-color: white;" />
+              </a>
 
-            <div>
-              <p class="fw-bold" style="color:rgb(227, 252, 1)">{{i.user.first_name}} {{i.user.last_name}}</p>
-              <span style="font-size: 14px;color:#8c8aa7;">{{i.upload_date}}</span>
-            </div>
+              <div>
+                <p class="fw-bold" style="color:rgb(227, 252, 1)">{{i.user.first_name}} {{i.user.last_name}}</p>
+                <span style="font-size: 14px;color:#8c8aa7;">{{i.upload_date}}</span>
+              </div>
           </div>
           <a class="trash" href="{% url 'pdeletepost' i.id %}">
-            {% if i.user.username == profile_data.reg_no %}
+            {% if i.user.username == profile_data.reg_no and not isfaculty %}
             <i class="fa fa-trash" onclick="dletepost('{{i.id}}')"></i>
             {% endif %}
           </a>
@@ -155,6 +165,17 @@
 
             <span class="fw-bold" id="likecount{{i.id}}" style="color: #45ffbc;margin-right: 3px;">{{i.likes.count}}
             </span>Like
+            {% if isfaculty %}
+            <a href="{% url 'fcomment' i.id %}" style="text-decoration:none ;margin-left: 40px;">
+              <div class="comment fw-bold" style="color:  #45ffbc;">
+                <i class="far fa-comment"
+                  style="border-radius: 50%;height: 40px;width: 40px;font-size: 40px;margin-right: 5px;"></i>
+
+                Comments
+
+              </div>
+            </a>
+            {% else %}
             <a href="{% url 'comment' i.id %}" style="text-decoration:none ;margin-left: 40px;">
               <div class="comment fw-bold" style="color:  #45ffbc;">
                 <i class="far fa-comment"
@@ -164,6 +185,7 @@
 
               </div>
             </a>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -261,9 +283,9 @@
 
             <div class="d-flex flex-row align-items-center"><img class="rounded-circle"
                 src="https://i.imgur.com/WxNkK7J_d.webp" width="55" style="border: 2px solid grey;">
-              <div class="d-flex flex-column align-items-start ml-2"><span
-                  class="font-weight-bold ">{{i.firstname}}</span>
-                <span class="followers  text-gery"> {{i.lastname}}</span>
+              <div class="d-flex flex-column align-items-start ml-2"><span class="font-weight-bold ">{{i.first_name}}
+                  {{i.last_name}}</span>
+
               </div>
             </div>
           </a>

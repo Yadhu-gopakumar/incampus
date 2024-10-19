@@ -7,16 +7,27 @@ background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 
 
     <!-- Left Sidebar  -->
     <div>
-
+            {% if isfaculty %}
             <ul class="floating-menu" style="padding-bottom: 20%;">
        
-                <li><a href='#'>Study Materials</a></li>
-                <li><a href='#'>Debates</a></li>
-                <li><a href='#'>Faculty</a></li>
-                <li><a href='#'>Community</a></li>
+                
+                <li><a href="{% url 'studymaterials' %}">Study Materials</a></li>
+                <li><a href="{% url 'debatespage' %}">Debates</a></li>
+                <li><a href="{% url 'communitypage' %}">Community</a></li>
+                <li><a href="{% url 'feedbacks' %}">Feedbacks</a></li>
 
             </ul>
+            {% else %}
+            <ul class="floating-menu" style="padding-bottom: 20%;">
+       
+                
+                <li><a href="{% url 'sstudymaterialsview' %}">Study Materials</a></li>
+                <li><a href="{% url 'sdebatespage' %}">Debates</a></li>
+                <li><a href="{% url 'scommunitypage' %}">Community</a></li>
+                <li><a href="{% url 'sfeedbacks' %}">Feedbacks</a></li>
 
+            </ul>
+            {% endif %}
 
     </div>
     <!-- Middle Content  -->

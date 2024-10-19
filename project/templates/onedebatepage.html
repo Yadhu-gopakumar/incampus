@@ -467,6 +467,7 @@
 <body style="background-color: white;color: #000;">
 
     <!-- Navigation Section  -->
+    {% if isfaculty %}
     <nav style="background-color: #85859c">
         <!-- <nav style=" background: linear-gradient(to right, #780206, #061161);"> -->
         <!-- Left Section  -->
@@ -555,6 +556,114 @@
         </div>
 
     </nav>
+    {% else %}
+    <nav style="background-color: #85859c">
+        <!-- <nav style=" background: linear-gradient(to right, #780206, #061161);"> -->
+        <!-- Left Section  -->
+        {% if not isfaculty %}
+
+        <div class="nav-left">
+            <a href="{% url 'homepage' %}" style="text-decoration: none;"><span class="logo"
+                    style="color: white;font-size: 25px;font-weight: bold;letter-spacing: 2px;filter: progid:DXImageTransform.Microsoft.Glow(Color=#ffffff,Strength=1);text-shadow: 0 0 4px rgb(57, 226, 5);">inCampus</span></a>
+
+        </div>
+        <!-- Right Section  -->
+        <div class="nav-right">
+            <!-- Searchbox  -->
+
+            <a href="{% url 'search' %}">
+                <div class="addpost mx-2" style="background: linear-gradient(327.43deg, #32383E -77.68%, #17191C 87.35%);
+      border: none;
+      box-shadow: -4px -2px 16px rgba(195,200,205,0), 4px 4px 18px rgba(0, 0, 0, 0.5);">
+
+                    <button type="button" class="btn btn-light" style="background: linear-gradient(327.43deg, #3e5368 -77.68%, #1f2835 87.35%);
+        border: none;
+        box-shadow: -4px -2px 16px rgba(195,200,205,0), 4px 4px 18px rgba(0, 0, 0, 0.5);color:white;"><i
+                            class="fa fa-search" style="margin-right:7px;"></i>Find Friends</button>
+
+                </div>
+            </a>
+            <div class="addpost mx-2" style="background: linear-gradient(327.43deg, #4a6064 -77.68%, #17191C 87.35%);
+      border: none;
+      box-shadow: -4px -2px 16px rgba(195,200,205,0), 4px 4px 18px rgba(0, 0, 0, 0.5);">
+
+                <button type="button" class="btn btn-light" data-toggle="modal" data-target="#addpost"
+                    data-whatever="@mdo" style="background: linear-gradient(327.43deg, #3e5368 -77.68%, #1f2835 87.35%);
+        border: none;
+        box-shadow: -4px -2px 16px rgba(195,200,205,0), 4px 4px 18px rgba(0, 0, 0, 0.5);color:white;"><i
+                        class="fa-solid fa-plus" style="margin-right:7px;"></i>Add Post</button>
+
+            </div>
+            <div class="nav-user-icon online" onclick="settingsMenuToggle()" style="margin-left: 10px;">
+                <img src="{{ data.profile_pic.url }}" style="border:3px solid #45ffbc;background-color: white;" />
+            </div>
+
+
+        </div>
+        {% else %}
+        <div class="nav-left">
+            <a href="{% url 'facultyhome' %}" style="text-decoration: none;"><span class="logo"
+                    style="color: white;font-size: 25px;font-weight: bold;letter-spacing: 2px;filter: progid:DXImageTransform.Microsoft.Glow(Color=#ffffff,Strength=1);text-shadow: 0 0 4px rgb(57, 226, 5);">inCampus</span></a>
+
+        </div>
+        <div class="nav-right"></div>
+        {% endif %}
+
+        <!-- Settings Menu Section  -->
+        <div class="settings-menu" style="background-color: rgb(255, 255, 255);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    -webkit-box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 20px rgba(14, 13, 13, 0.356);">
+
+            <!-- Dark Button Toggle  -->
+            {% if isfaculty %}
+            <div></div>
+            {% else %}
+            <div class="settings-menu-inner" style="color: #000;background-color: #677f9760;">
+                <div class="user-profile">
+                    <img src="{{ data.profile_pic.url }}" style="height: 50px;width:50px;border:3px solid #45ffbc;" />
+                    <div>
+                        <p style="color: rgb(0, 0, 0);">{{data.firstname}}_{{data.lastname}}</p>
+
+                        <a href="{% url 'studentprofile' request.user.username %}" style="color: rgb(27, 22, 56);">See
+                            your profile</a>
+
+                    </div>
+                </div>
+                <hr />
+
+                <hr />
+
+                <div class="settings-links">
+                    <a href="{% url 'studentedit' %}" style="color: rgb(0, 64, 107);">
+                        <button type="button" class="btn btn-disabled" style="color: rgb(0, 0, 0);">
+                            <img src="{% static 'images/setting.png' %}" class="settings-icon" />
+                            edit Profile
+                        </button>
+                    </a>
+                </div>
+
+
+                <div class="settings-links">
+
+                    <button type="submit" class="btn btn-disable" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop" style="color: rgb(0, 0, 0);">
+                        <img src="{% static 'images/logout.png' %}" class="settings-icon" />
+                        logout
+                    </button>
+
+
+
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+    </nav>
+    {% endif %}
+    <!-- Main Content Section  -->
+
 
     <!-- Main Content Section  -->
 
@@ -564,16 +673,27 @@
         <!-- Left Sidebar  -->
         <div>
 
+            {% if isfaculty %}
             <ul class="floating-menu" style="padding-bottom: 20%;">
 
-                <li><a href='{% url "studymaterials" %}'>Study Materials</a></li>
-                <li><a href='{% url "debatespage" %}' style="color: yellow;">Debates</a></li>
 
+                <li><a href="{% url 'studymaterials' %}">Study Materials</a></li>
+                <li><a href="{% url 'debatespage' %}" style="color: yellow;">Debates</a></li>
                 <li><a href="{% url 'communitypage' %}">Community</a></li>
                 <li><a href="{% url 'feedbacks' %}">Feedbacks</a></li>
 
+            </ul>
+            {% else %}
+            <ul class="floating-menu" style="padding-bottom: 20%;">
+
+
+                <li><a href="{% url 'sstudymaterialsview' %}">Study Materials</a></li>
+                <li><a href="{% url 'sdebatespage' %}" style="color: yellow;">Debates</a></li>
+                <li><a href="{% url 'scommunitypage' %}">Community</a></li>
+                <li><a href="{% url 'sfeedbacks' %}">Feedbacks</a></li>
 
             </ul>
+            {% endif %}
 
 
         </div>
@@ -588,225 +708,308 @@
 
             <!-- Uploaded Posts Section  -->
             <!-- Post 1  -->
-            <div class="news-item"style="margin-top:60px;">
-                <h3>{{debates.topic}} </h3>
-                <p>{{debates.d_date}}</p>
-                
-             
+            <div class="news-item" style="margin-top:60px;">
+                <h3 class="m-2">Topic : {{debates.topic}} </h3>
+                <p style="color: #ececec;font-size: 15px; margin-bottom: 0;">Date : {{debates.d_date}}</p>
+                <p style="color: #ececec;font-size: 15px;">Shared by : {{debates.facultyname}}</p>
+
+
+                {% if not isfaculty %}
+
+
+                <div class="box" style="background-color:transparent;">
+                    <div class="col-md-12 bootstrap snippets">
+                        <div class="panel">
+                            <form class="panel-body" action="{% url 'add_sdebatereply' debates.id %}" method="post"
+                                id="commentform">
+                                {% csrf_token %}
+                                <textarea class="form-control" rows="1" placeholder="add your debate reply..."
+                                    name='d_reply' id="comment"
+                                    style='border:2px solid #45ffbc;background-color: rgba(0, 5, 31, 0.753);color: white;'
+                                    required></textarea>
+                                <div class="mar-top clearfix">
+                                    <button class="btn btn-sm btn-primary pull-right" type="submit" style="background: rgb(96,9,240);
+                                    background: linear-gradient(0deg, rgba(96,9,240,1) 0%, rgba(129,5,240,1) 100%);
+                                    border: none;">
+                                        <i class="fa fa-pencil fa-fw"></i> Your reply</button>
+
+                                </div>
+                            </form>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                {% endif %}
             </div>
-            replies
-            <!-- Right Sidebar  -->
-            <!-- <div style="color: black;">
-    
-            </div> -->
+
+            {% if replies %}
+
+            <div class="container p-0" style="background-color: transparent;color: black;">
+                replies( <p id='commentcount' style="margin: 0;">{{replies.count}}</p>)
+                <hr>
+            </div>
+
+
+            {% for i in replies reversed %}
+            <div id="commentbox">
+                <div class="post-container {{i.id}}" id="post-container" style="background:#393846;">
+                    <div class="post-row">
+                        <div class="user-profile">
+                            <a href="{% url 'studentprofile' i.user.reg_no %}">
+
+                                <img src="{{i.user.profile_pic.url}}" style="width:50px ;height:50px;" />
+                            </a>
+
+                            <div>
+                                <p style="color:yellow;">{{i.user.firstname}}_{{i.user.lastname}}</p>
+                                <span style="font-size: 15px;color: #8c8aa7;">{{i.date}}</span>
+                            </div>
+
+                        </div>
+                        {% if i.user.username == userprofile.username or isfaculty %}
+                        <a href="{% url 'sdeletedebatereply' i.id  debates.id %}">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                        {% else %}
+                        <div class="like" style="right:0;">
+                            <i class="fa fa-thumbs-up"></i>
+                        </div>
+                        {% endif %}
+
+                    </div>
+                    <p class="post-text" style="font-weight: bold;letter-spacing:1px;color:white;letter-spacing: 1px;">
+                        {{i.reply}}
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+
+            {% else %}
+            <div class="container p-0" style="background-color: transparent;color: black;">
+                replies( <p id='commentcount' style="margin: 0;color: black;">0</p>)
+                <hr>
+            </div>
+            <div id="commentbox">
+
+            </div>
         </div>
-        <script>
+        {% endif %}
+    </div>
+    <script>
 
-            function likepost(e) {
-                const likeform = new FormData()
-                let data = likeform.append('id', e.id);
-                // (e.style.color === "grey") ? (e.style.color = "brown") : (e.style.color = 'grey');
+        function likepost(e) {
+            const likeform = new FormData()
+            let data = likeform.append('id', e.id);
+            // (e.style.color === "grey") ? (e.style.color = "brown") : (e.style.color = 'grey');
 
-                fetch(`like/${e.id}/`, {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json, text/plain, */*',
-                        'Content-Type': 'application/json',
-                        "X-CSRFToken": '{{csrf_token}}'
-                    },
-                    body: JSON.stringify(data)
-                })
-                    .then((res) => res.json())
-                    .then((data) => {
-                        console.log(data);
-                        let likecount = document.getElementById(`likecount${e.id}`);
-                        if (e.style.color === "grey") {
-                            likecount.innerHTML = (likecount.innerHTML * 1) + 1;
-                            e.style.color = "red";
-                        }
-                        else {
-                            likecount.innerHTML = (likecount.innerHTML * 1) - 1;
-                            e.style.color = "grey";
-                        }
+            fetch(`like/${e.id}/`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json',
+                    "X-CSRFToken": '{{csrf_token}}'
+                },
+                body: JSON.stringify(data)
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log(data);
+                    let likecount = document.getElementById(`likecount${e.id}`);
+                    if (e.style.color === "grey") {
+                        likecount.innerHTML = (likecount.innerHTML * 1) + 1;
+                        e.style.color = "red";
                     }
-                    )
-                    .catch((err) => console.log(err));
-            }
-        </script>
+                    else {
+                        likecount.innerHTML = (likecount.innerHTML * 1) - 1;
+                        e.style.color = "grey";
+                    }
+                }
+                )
+                .catch((err) => console.log(err));
+        }
+    </script>
 
 
 
 
 
-        <!-- upload post form  -->
-        <div class="modal fade " id="debate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="staticBackdropLabel" aria-hidden="true" style="color: rgb(255, 255, 255);">
-            <div class="modal-dialog">
-                <div class="modal-content" style="background-color: rgb(255, 255, 255);
+    <!-- upload post form  -->
+    <div class="modal fade " id="debate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true" style="color: rgb(255, 255, 255);">
+        <div class="modal-dialog">
+            <div class="modal-content" style="background-color: rgb(255, 255, 255);
       -webkit-backdrop-filter: blur(15px);
       backdrop-filter: blur(15px);
    
       -webkit-box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
       box-shadow: 0 2px 20px rgba(219, 214, 214, 0.15);
       border: 1px solid rgba(255, 255, 255, 0.3);">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel" style="color: #201f36;">New Debate</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                            style="border:none;outline:none;">
-                            <span aria-hidden="true" style="color:red;">X</span>
-                        </button>
-                    </div>
-                    <div class="modal-body" style="color:black">
-                        <form id="form1" action="{% url 'adddebate' %}" method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" style="color: #201f36;">New Debate</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        style="border:none;outline:none;">
+                        <span aria-hidden="true" style="color:red;">X</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="color:black">
+                    <form id="form1" action="{% url 'adddebate' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
 
-                            <div class="form-group">
+                        <div class="form-group">
 
-                                <label for="file-upload" style="color: rgb(0, 0, 0);">Add new Debate topic...</label>
+                            <label for="file-upload" style="color: rgb(0, 0, 0);">Add new Debate topic...</label>
 
-                                <textarea oninput="auto_grow(this)" style="color:rgb(0, 0, 0);resize: none;overflow: hidden;min-height: 50px;max-height: 150px;width:80%; border: 2px solid #dadada;
+                            <textarea oninput="auto_grow(this)" style="color:rgb(0, 0, 0);resize: none;overflow: hidden;min-height: 50px;max-height: 150px;width:80%; border: 2px solid #dadada;
                             border-radius: 7px; background-color: #33333383;" name="debate"
-                                    class="form-control textarea" placeholder="what's in your mind.." required
-                                    id='post'></textarea>
+                                class="form-control textarea" placeholder="what's in your mind.." required
+                                id='post'></textarea>
 
-                            </div>
+                        </div>
 
 
-                            <div class="form-group">
+                        <div class="form-group">
 
-                                <button type="submit" class="btn btn-primary" style="background: rgb(96,9,240);
+                            <button type="submit" class="btn btn-primary" style="background: rgb(96,9,240);
               background: linear-gradient(0deg, rgba(96,9,240,1) 0%, rgba(129,5,240,1) 100%);
               border: none;">Share</button>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- upload post form  -->
+    <!-- upload post form  -->
 
 
-        <div class="modal fade text-dark" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content" style="background-color:rgb(231, 231, 231);">
-                    <div class="modal-header">
+    <div class="modal fade text-dark" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="background-color:rgb(231, 231, 231);">
+                <div class="modal-header">
 
-                        <button type="button" class="btn-close" style="color: white;" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" style="border:none;color: rgb(128, 4, 0);">
+                    <button type="button" class="btn-close" style="color: white;" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="border:none;color: rgb(128, 4, 0);">
 
-                        Are you sure you want to log out?
-                    </div>
-                    <div class="modal-footer">
-
-                        <form action="{% url 'facultylogout' %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-warning">Sign out</button>
-                        </form>
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
-                    </div>
+                    Are you sure you want to log out?
+                </div>
+                <div class="modal-footer">
+                    {% if isfaculty %}
+                    <form action="{% url 'facultylogout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-warning">Sign out</button>
+                    </form>
+                    {% else %}
+                    <form action="{% url 'studentlogout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-warning">Sign out</button>
+                    </form>
+                    {% endif %}
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
-        <!-- sign out form model  -->
+    </div>
+    <!-- sign out form model  -->
 
-        <div class="modal fade " id="community" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="staticBackdropLabel" aria-hidden="true" style="color: rgb(255, 255, 255);color: #000;">
-            <div class="modal-dialog">
-                <div class="modal-content" style="background-color: rgb(255, 255, 255);
+    <div class="modal fade " id="community" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true" style="color: rgb(255, 255, 255);color: #000;">
+        <div class="modal-dialog">
+            <div class="modal-content" style="background-color: rgb(255, 255, 255);
   -webkit-backdrop-filter: blur(15px);
   backdrop-filter: blur(15px);
 
   -webkit-box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
   box-shadow: 0 2px 20px rgba(219, 214, 214, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.3);">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel" style="color: #201f36;">New Community post</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                            style="border:none;outline:none;">
-                            <span aria-hidden="true" style="color:red;">X</span>
-                        </button>
-                    </div>
-                    <div class="modal-body" style="color:black">
-                        <form id="form1" action="{% url 'addcommunity' %}" method="post">
-                            {% csrf_token %}
-                            <div class="form-group">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" style="color: #201f36;">New Community post</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        style="border:none;outline:none;">
+                        <span aria-hidden="true" style="color:red;">X</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="color:black">
+                    <form id="form1" action="{% url 'addcommunity' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
 
-                                <label for="file-upload" style="color: rgb(0, 0, 0);">Community Title</label>
+                            <label for="file-upload" style="color: rgb(0, 0, 0);">Community Title</label>
 
-                                <textarea oninput="auto_grow(this)" style="color:rgb(0, 0, 0);resize: none;overflow: hidden;min-height: 50px;max-height: 150px;width:80%; border: 2px solid #dadada;
+                            <textarea oninput="auto_grow(this)" style="color:rgb(0, 0, 0);resize: none;overflow: hidden;min-height: 50px;max-height: 150px;width:80%; border: 2px solid #dadada;
                         border-radius: 7px; background-color: #33333338;" name="ctitle" class="form-control textarea"
-                                    placeholder="title.." required id='post'></textarea>
+                                placeholder="title.." required id='post'></textarea>
 
-                            </div>
-                            <div class="form-group">
+                        </div>
+                        <div class="form-group">
 
-                                <label for="file-upload" style="color: rgb(0, 0, 0);">Community Post...</label>
+                            <label for="file-upload" style="color: rgb(0, 0, 0);">Community Post...</label>
 
-                                <textarea oninput="auto_grow(this)" style="color:rgb(0, 0, 0);resize: none;overflow: hidden;min-height: 100px;max-height: 150px;width:80%; border: 2px solid #dadada;
+                            <textarea oninput="auto_grow(this)" style="color:rgb(0, 0, 0);resize: none;overflow: hidden;min-height: 100px;max-height: 150px;width:80%; border: 2px solid #dadada;
                         border-radius: 7px; background-color: #33333321;" name="post" class="form-control textarea"
-                                    placeholder="what's in your mind.." required id='post'></textarea>
+                                placeholder="what's in your mind.." required id='post'></textarea>
 
-                            </div>
+                        </div>
 
 
-                            <div class="form-group">
+                        <div class="form-group">
 
-                                <button type="submit" class="btn btn-primary" style="background: rgb(96,9,240);
+                            <button type="submit" class="btn btn-primary" style="background: rgb(96,9,240);
           background: linear-gradient(0deg, rgba(96,9,240,1) 0%, rgba(129,5,240,1) 100%);
           border: none;">Share</button>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-        <!-- sign out form model  -->
-        <!-- Footer Section  -->
+    </div>
+    <!-- sign out form model  -->
+    <!-- Footer Section  -->
 
-        <!-- Footer Section  -->
+    <!-- Footer Section  -->
 
 
-        <!-- JavaScript File  -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
-            crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script>
+    <!-- JavaScript File  -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
 
-            var settingsmenu = document.querySelector(".settings-menu");
-            function settingsMenuToggle() {
-                settingsmenu.classList.toggle("settings-menu-height");
-            }
-        </script>
+        var settingsmenu = document.querySelector(".settings-menu");
+        function settingsMenuToggle() {
+            settingsmenu.classList.toggle("settings-menu-height");
+        }
+    </script>
 
-        <script>
-            $(document).ready(function () {
-                $("#myBtn").click(function () {
-                    $("#myModal").modal();
-                });
+    <script>
+        $(document).ready(function () {
+            $("#myBtn").click(function () {
+                $("#myModal").modal();
             });
+        });
 
 
-        </script>
-        <!-- image upload progress -->
+    </script>
+    <!-- image upload progress -->
 
-        <!-- image upload progress -->
-
-
+    <!-- image upload progress -->
 
 
-        <script>
-            function auto_grow(element) {
-                element.style.height = "5px";
-                element.style.height = (element.scrollHeight) + "px";
-            }
-        </script>
-        <script src="{% static 'asset/script.js' %}"></script>
+
+
+    <script>
+        function auto_grow(element) {
+            element.style.height = "5px";
+            element.style.height = (element.scrollHeight) + "px";
+        }
+    </script>
+    <script src="{% static 'asset/script.js' %}"></script>
 
 </body>
 
