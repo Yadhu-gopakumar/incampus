@@ -38,27 +38,29 @@
 			box-sizing: border-box;
 			box-shadow: 0 15px 25px rgba(0,0,0,.6);
 			border-radius: 10px;margin-top: 35vh;">
-                {% for i in messages %}
-                <p style="color:orange ;">{{i}}</p>
-                {% endfor %}
+                <p id="error-message" style="color: orange;">
+                    {% for i in messages %}
+                    {{i}}
+                    {% endfor %}
+                </p>
                 <div class="titlef" style="color:white">Faculty Sign Up</div>
 
-                <form action="{% url 'facultyreg' %}" method="post">
+                <form action="{% url 'facultyreg' %}" method="post" id="regform">
                     {% csrf_token %}
-                 
-                    <input type="text" placeholder="firstname " name="fname" style="border: none;
+
+                    <input type="text" placeholder="firstname " name="fname" id='fname' style="border: none;
 					border-bottom: 1px solid #45ffbc;color:white;
 					outline: none;" required />
-                    <input type="text" placeholder="lastname " name="lname" style="border: none;
+                    <input type="text" placeholder="lastname " name="lname" id="'lname" style="border: none;
 					border-bottom: 1px solid #45ffbc;color:white;
 					outline: none;" required />
-                    <input type="email" placeholder="email " name="email" style="border: none;
+                    <input type="email" placeholder="email " id="email" name="email" style="border: none;
 					border-bottom: 1px solid #45ffbc;color:white;
 					outline: none;" required />
-                    <input type="text" placeholder="phone number " name="phone" style="border: none;
+                    <input type="text" placeholder="phone number " id="phone" name="phone" style="border: none;
 					border-bottom: 1px solid #45ffbc;color:white;
 					outline: none;" required />
-                  
+
 
                     <select name="department" class="form-control" id="id_department" style="font-family: 'Poppins', sans-serif;border: none;
 					border-bottom: 1px solid #45ffbc;color:white;
@@ -71,15 +73,15 @@
                     </select>
 
 
-                    <input type="password" placeholder="Password " name="pswd" style="border: none;
+                    <input type="password" placeholder="Password " id="pswd" name="pswd" style="border: none;
 					border-bottom: 1px solid #45ffbc;color:white;
 					outline: none;" required />
-                    <input type="password" placeholder="confirm Password" name="cpswd" style="border: none;
+                    <input type="password" placeholder="confirm Password" id="cpswd" name="cpswd" style="border: none;
 					border-bottom: 1px solid #45ffbc;color:white;
 					outline: none; " required>
-                    <button class="login" type="submit" style="background: rgb(96,9,240);
+                    <button class="login" type="button" style="background: rgb(96,9,240);
 					background: linear-gradient(0deg, rgba(96,9,240,1) 0%, rgba(129,5,240,1) 100%);
-					border: none; ">Sign Up</button>
+					border: none; " onclick="validateAndSubmitForm()">Sign Up</button>
 
 
                 </form>
@@ -92,6 +94,71 @@
             </div>
         </div>
     </div>
+    <script>
+        function validateAndSubmitForm() {
+            const errorMessage = document.getElementById("error-message");
+            errorMessage.textContent = ""; // Clear previous error messages
+
+            const fname = document.getElementById("fname").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("pswd").value.trim();
+            const cpassword = document.getElementById("cpswd").value.trim();
+            const id_department = document.getElementById("id_department").value.trim();
+            const phone = document.getElementById("phone").value.trim();
+
+            // Validation Rules
+            function validateEmail(email) {
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regex for email validation
+                return emailPattern.test(email);
+            }
+
+            // Check if the first name is provided
+            if (fname === "") {
+                errorMessage.textContent = "Name is required.";
+                return; // Prevent form submission
+            }
+
+            // Check if a department is selected
+            if (id_department === "") {
+                errorMessage.textContent = "Department is required.";
+                return; // Prevent form submission
+            }
+
+            // Validate email format
+            if (!validateEmail(email)) {
+                errorMessage.textContent = "Invalid email address.";
+                return; // Prevent form submission
+            }
+            if (phone === "") {
+                errorMessage.textContent = "Phone number is required.";
+                return; // Prevent form submission
+            }
+            function validatePhone(phone) {
+                const phonepattern = /^\d{10}$/;
+                return phonepattern.test(phone);
+            }
+            if(!validatePhone(phone)){
+                errorMessage.textContent = "invalid phone number";
+                return
+            }
+            // Check password length
+            if (password.length < 4) {
+                errorMessage.textContent = "Password minimum length is 4.";
+                return; // Prevent form submission
+            }
+
+            // Check if passwords match
+            if (password !== cpassword) {
+                errorMessage.textContent = "Passwords aren't matching.";
+                return; // Prevent form submission
+            }
+
+            // If all validations pass, submit the form
+            document.getElementById("regform").submit();
+        }
+    </script>
+
+
 </body>
 
 </html>

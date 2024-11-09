@@ -21,8 +21,8 @@ def studentreg(request):
         password=request.POST['cpswd']
         cpassword=request.POST['cpswd']
         if cpassword==password:
-            check_avail=userprofile.objects.filter(reg_no=reg).exists()
-            if check_avail is not None:
+          
+            if userprofile.objects.filter(reg_no=reg).exists():
                 if User.objects.filter(username=reg).exists():
                     
                     messages.info(request,"Already registered!")
@@ -85,11 +85,11 @@ def facultyreg(request):
         phone=request.POST['phone']
         department=request.POST['department']
         email=request.POST['email']
-        password=request.POST['cpswd']
+        password=request.POST['pswd']
         cpassword=request.POST['cpswd']
         if cpassword==password:
-            check_avail=facultyprofile.objects.filter(email=email).exists()
-            if check_avail is not None:
+            
+            if facultyprofile.objects.filter(email=email).exists():
                 if User.objects.filter(username=email).exists():
                     
                     messages.info(request,"Already registered!")

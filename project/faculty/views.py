@@ -152,9 +152,9 @@ def studymaterialsview(request):
         summary=request.POST['summary']
         note=request.FILES['note']
         s=f_studymaterials.objects.create(faculty=userh,file=note,note=summary,department=userh.department)
-        return render(request,'studymaterials.html',{'s_all':s_all,'isfaculty':True})
+        return render(request,'studymaterials.html',{'s_all':s_all,'isfaculty':True,'data':userh})
 
-    return render(request,'studymaterials.html',{'s_all':s_all,'isfaculty':True})
+    return render(request,'studymaterials.html',{'s_all':s_all,'isfaculty':True,'data':userh})
 
 def deletenote(request,id):
     f_studymaterials.objects.get(id=id).delete()

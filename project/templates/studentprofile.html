@@ -100,22 +100,23 @@
           <div class="user-profile">
             <!-- {% if isfaculty %} -->
             <a href="{% url 'studentprofile' i.user.username %}">
-<!-- 
+              <!-- 
               {% else %}
               <a href="{% url 'homepage' %}">
                 {% endif %} -->
 
-                <img src="{{i.post_profile.profile_pic.url}}"
-                  style="height: 50px;width:50px;border:3px solid #45ffbc;background-color: white;" />
-              </a>
+              <img src="{{i.post_profile.profile_pic.url}}"
+                style="height: 50px;width:50px;border:3px solid #45ffbc;background-color: white;" />
+            </a>
 
-              <div>
-                <p class="fw-bold" style="color:rgb(227, 252, 1)">{{i.user.first_name}} {{i.user.last_name}}</p>
-                <span style="font-size: 14px;color:#8c8aa7;">{{i.upload_date}}</span>
-              </div>
+            <div>
+              <p class="fw-bold" style="color:rgb(227, 252, 1)">{{i.user.first_name}} {{i.user.last_name}}</p>
+              <span style="font-size: 14px;color:#8c8aa7;">{{i.upload_date}}</span>
+            </div>
           </div>
           <a class="trash" href="{% url 'pdeletepost' i.id %}">
-            {% if i.user.username == profile_data.reg_no and not isfaculty %}
+            {% if profile_data == userprofile%}
+
             <i class="fa fa-trash" onclick="dletepost('{{i.id}}')"></i>
             {% endif %}
           </a>
